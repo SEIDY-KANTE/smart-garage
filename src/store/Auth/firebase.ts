@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-
 const firebaseConfig = {
   apiKey: 'AIzaSyDfpht_Rk1IdzDt9FdoA3Dc10-kkOkOmhg',
   authDomain: 'smart-garage-iot.firebaseapp.com',

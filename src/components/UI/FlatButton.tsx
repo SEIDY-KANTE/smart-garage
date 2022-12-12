@@ -7,7 +7,7 @@ interface IProps {
   onPress: () => void;
 }
 
-const Button = (props: IProps) => {
+const FlatButton = (props: IProps) => {
   return (
     <Pressable
       style={({ pressed }) => [styles.button, pressed && styles.pressed]}
@@ -20,28 +20,18 @@ const Button = (props: IProps) => {
   );
 };
 
-export default Button;
+export default FlatButton;
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    backgroundColor: globalStyles.colors.cyan,
-    borderRadius: 5,
-    elevation: 2,
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
   },
   pressed: {
     opacity: 0.7,
   },
   buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily: globalStyles.fontFamily.primary,
+    color: globalStyles.colors.blue,
   },
 });

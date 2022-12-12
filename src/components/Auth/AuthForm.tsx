@@ -3,8 +3,8 @@ import React, { useState, FC } from 'react';
 import { FormValidity } from './AuthContent';
 import Input, { InputType } from '../UI/Input';
 import Button from '../UI/Button';
-import { ErrorMessages } from './ErrorMessage';
-import { useAuth } from '../../store/auth-context';
+import { ErrorMessages } from './ErrorMessages';
+import { useAuth } from '../../context/auth-context';
 import globalStyles from '../../common';
 
 export type FormValues = {
@@ -118,5 +118,5 @@ const styles = StyleSheet.create({
   },
   error: {
     color: globalStyles.colors.orangered,
-  }
+  },
 });

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import AuthForm, { FormValues } from './AuthForm';
 import { validateEmail } from '../../utils/emailValidation';
 import globalStyles from '../../common';
-import Button from '../UI/Button';
+import FlatButton from '../UI/Button';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../navigation/AuthStack';
 
@@ -57,7 +57,6 @@ const AuthContent: FC<AuthContentProps> = ({ isLogin, onLogin, onSignup }) => {
       !passwordIsValid ||
       (!isLogin && (!passwordsAreMatching || !usernameIsValid))
     ) {
-      alert('Please check your input');
       setFormValidity({
         email: emailIsValid,
         username: usernameIsValid,
@@ -81,9 +80,12 @@ const AuthContent: FC<AuthContentProps> = ({ isLogin, onLogin, onSignup }) => {
         formValidity={formValidity}
       />
       <View style={styles.buttonContainer}>
-        <Button color="purple" textColor="white" onPress={switchAuthMode}>
+        {/* <Button color="purple" textColor="white" onPress={switchAuthMode}>
           {isLogin ? 'Sign up instead' : 'Login instead'}
-        </Button>
+        </Button> */}
+        <FlatButton color="purple" textColor="white" onPress={switchAuthMode}>
+          {isLogin ? 'Signup instead' : 'Login instead'}
+        </FlatButton>
       </View>
     </View>
   );

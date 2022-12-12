@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import React, { useState } from 'react';
-import { useAuth } from '../store/auth-context';
+import { useAuth } from '../context/auth-context';
 import AuthContent from '../components/Auth/AuthContent';
 
 const SignupScreen = () => {
@@ -22,6 +22,8 @@ const SignupScreen = () => {
       setIsAuthenticating(false);
     }
   };
+
+  if (isAuthenticating) return <Text>Authenticating...</Text>;
 
   return <AuthContent isLogin={false} onSignup={signupHandler} />;
 };

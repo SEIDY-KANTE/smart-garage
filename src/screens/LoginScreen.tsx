@@ -1,9 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React, { useState, useContext } from 'react';
-import { useAuth } from '../store/auth-context';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/auth-context';
 import AuthContent from '../components/Auth/AuthContent';
-import { ErrorMessages } from '../components/Auth/ErrorMessage';
-
 
 const LoginScreen = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
