@@ -20,12 +20,6 @@ const AppStack = () => {
         style={styles.rootScreen}
       >
         <SafeAreaView style={styles.rootScreen}>
-          {/* <ImageBackground
-            source={require('./assets/images/main-bg2.jpg')}
-            resizeMode="cover"
-            style={styles.rootScreen}
-            imageStyle={styles.backgroundImage}
-          ></ImageBackground> */}
           {isLoggedIn ? <HomeStack /> : <AuthStack />}
         </SafeAreaView>
       </LinearGradient>

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   pressed: {
-    opacity: 0.7,
+    opacity: 0.75,
   },
   buttonText: {
     color: 'white',

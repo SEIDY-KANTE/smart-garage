@@ -14,7 +14,6 @@ export type BottomStackParamList = {
   Settings: undefined;
   History: undefined;
   Profile: undefined;
-  Notifications: undefined;
 };
 
 const BottomTab = createBottomTabNavigator<BottomStackParamList>();
@@ -22,6 +21,7 @@ type HomeStackProps = BottomTabNavigationProp<BottomStackParamList>;
 
 const HomeStack = () => {
   const { currentUser, logout } = useAuth();
+
   const navigation = useNavigation<HomeStackProps>();
 
   if (false) return <UnAuthorizedStack />;
@@ -33,10 +33,10 @@ const HomeStack = () => {
   return (
     <BottomTab.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: globalStyles.colors.blue },
+        headerStyle: { backgroundColor: globalStyles.colors.teal },
         headerTintColor: globalStyles.colors.white,
-        tabBarStyle: { backgroundColor: globalStyles.colors.blue },
-        tabBarActiveTintColor: globalStyles.colors.white,
+        tabBarStyle: { backgroundColor: globalStyles.colors.subtleTeal },
+        tabBarActiveTintColor: globalStyles.colors.teal,
         headerRight: () => <IconButton onPress={navigateToProfile} />,
       }}
     >
@@ -75,7 +75,7 @@ const HomeStack = () => {
             fontSize: 20,
           },
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings-outline" color={color} size={size} />
+            <Ionicons name="settings" color={color} size={size} />
           ),
         }}
       />
@@ -88,7 +88,7 @@ const HomeStack = () => {
             fontSize: 20,
           },
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" color={color} size={size} />
+            <Ionicons name="person" color={color} size={size} />
           ),
         }}
       />
