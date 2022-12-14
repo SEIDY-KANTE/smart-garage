@@ -1,21 +1,99 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { useAuth } from '../context/auth-context';
 import UnAuthorizedStack from './UnAuthorizedStack';
-import Button from '../components/UI/Button';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Home, SettingsTab, ProfileTab, HistoryTab } from '../components/Tabs';
+import { Ionicons } from '@expo/vector-icons';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import globalStyles from '../common';
+import IconButton from '../components/UI/IconButton';
+
+export type BottomStackParamList = {
+  Home: undefined;
+  Settings: undefined;
+  History: undefined;
+  Profile: undefined;
+  Notifications: undefined;
+};
+
+const BottomTab = createBottomTabNavigator<BottomStackParamList>();
+type HomeStackProps = BottomTabNavigationProp<BottomStackParamList>;
 
 const HomeStack = () => {
   const { currentUser, logout } = useAuth();
+  const navigation = useNavigation<HomeStackProps>();
 
   if (false) return <UnAuthorizedStack />;
 
+  const navigateToProfile = () => {
+    navigation.navigate('Profile');
+  };
+
   return (
-    <SafeAreaView>
-      
-    </SafeAreaView>
+    <BottomTab.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: globalStyles.colors.blue },
+        headerTintColor: globalStyles.colors.white,
+        tabBarStyle: { backgroundColor: globalStyles.colors.blue },
+        tabBarActiveTintColor: globalStyles.colors.white,
+        headerRight: () => <IconButton onPress={navigateToProfile} />,
+      }}
+    >
+      <BottomTab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerTitleStyle: {
+            fontFamily: globalStyles.fontFamily.secondary,
+            fontSize: 20,
+          },
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="History"
+        component={HistoryTab}
+        options={{
+          headerTitleStyle: {
+            fontFamily: globalStyles.fontFamily.secondary,
+            fontSize: 20,
+          },
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="sync-outline" color={color} size={size} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Settings"
+        component={SettingsTab}
+        options={{
+          headerTitleStyle: {
+            fontFamily: globalStyles.fontFamily.secondary,
+            fontSize: 20,
+          },
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings-outline" color={color} size={size} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Profile"
+        component={ProfileTab}
+        options={{
+          headerTitleStyle: {
+            fontFamily: globalStyles.fontFamily.secondary,
+            fontSize: 20,
+          },
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" color={color} size={size} />
+          ),
+        }}
+      />
+    </BottomTab.Navigator>
   );
 };
 
 export default HomeStack;
-
-const styles = StyleSheet.create({});

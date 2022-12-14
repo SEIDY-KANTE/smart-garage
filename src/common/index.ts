@@ -8,7 +8,7 @@ const globalStyles = {
     red: '#F87171',
     yellow: '#FBBF24',
     green: '#34D399',
-    teal: '#10B981',
+    teal: '#138989',
     gray: '#6B7280',
     gray2: '#9CA3AF',
     gray3: '#E5E7EB',
