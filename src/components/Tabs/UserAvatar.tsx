@@ -4,7 +4,7 @@ import { Avatar } from 'react-native-elements';
 import globalStyles from '../../common';
 import { useAuth } from '../../context/auth-context';
 
-const UserAvatar: FC<{ size?: number }> = ({ size }) => {
+const UserAvatar: FC<{ size?: number; color?: string }> = ({ size, color }) => {
   const currentUser = useAuth();
   return (
     <View style={styles.avatar}>
@@ -16,7 +16,7 @@ const UserAvatar: FC<{ size?: number }> = ({ size }) => {
         rounded
         activeOpacity={0.7}
         icon={{ name: 'user', type: 'font-awesome' }}
-        containerStyle={{ backgroundColor: globalStyles.colors.gray3 }}
+        containerStyle={{ backgroundColor: color || globalStyles.colors.gray3 }}
       />
     </View>
   );

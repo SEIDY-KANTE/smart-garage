@@ -25,6 +25,10 @@ const ProfileTab = () => {
         </Text>
       </View>
       <View style={styles.flexContainer}>
+        <Text style={styles.text}>Email Address:</Text>
+        <Text style={styles.text}>{currentUser?.email}</Text>
+      </View>
+      <View style={styles.flexContainer}>
         <Text style={styles.text}>Theme: </Text>
         <View style={styles.themeButton}>
           <Button onPress={toggleTheme}>

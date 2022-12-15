@@ -39,7 +39,7 @@ const HistoryItem: FC<HistoryItemProps> = ({ device, state, time, user }) => {
         </View>
       </View>
       <View style={styles.user}>
-        <UserAvatar size={55} />
+        <UserAvatar size={55} color={globalStyles.colors.subtleTeal3} />
         <Text style={styles.username}>by {user}</Text>
       </View>
     </View>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   user: {
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   device: {
     fontSize: 20,

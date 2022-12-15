@@ -8,6 +8,7 @@ const globalStyles = {
     darkTeal: '#077a7a',
     subtleTeal: '#e6f7f7',
     subtleTeal2: '#6bcfd2',
+    subtleTeal3: '#9dd6d6',
     // subtleTeal2: 'salmon',
     accent: 'salmon',
     subtleAccent: '#f6c5c5',
