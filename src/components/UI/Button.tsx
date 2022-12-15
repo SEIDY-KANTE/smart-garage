@@ -18,7 +18,7 @@ const Button = (props: IProps) => {
   const containerStyle = [
     styles.button,
     {
-      backgroundColor: props.color || globalStyles.colors.cyan,
+      backgroundColor: props.color || globalStyles.colors.subtleTeal2,
     },
   ];
 

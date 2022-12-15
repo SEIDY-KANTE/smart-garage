@@ -5,5 +5,5 @@ export const ErrorMessages = {
   userNotFound: 'User not found',
   weakPassword: 'Password is too weak',
   passwordMismatch: 'Passwords do not match',
-  invalidCredentials: 'Invalid credential',
+  invalidCredentials: 'Invalid username or password',
 };

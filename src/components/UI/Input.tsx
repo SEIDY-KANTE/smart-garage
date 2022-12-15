@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
     marginBottom: 5,
     fontFamily: globalStyles.fontFamily.primary,
+    color: globalStyles.colors.darkTeal,
   },
   input: {
     paddingVertical: 9,

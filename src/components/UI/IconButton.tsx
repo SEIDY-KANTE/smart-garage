@@ -20,7 +20,7 @@ const IconButton: FC<IProps> = ({ onPress }) => (
       IconBadgeStyle={{
         width: 20,
         height: 20,
-        backgroundColor: 'red',
+        backgroundColor: 'salmon',
         marginTop: -3,
       }}
     ></IconBadge>

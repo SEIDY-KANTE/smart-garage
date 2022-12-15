@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import Button from '../components/UI/Button';
-import { useAuth } from '../context/auth-context';
+import Button from '../../components/UI/Button';
+import { useAuth } from '../../context/auth-context';
 
 const UnAuthorizedStack = () => {
-  const { logout } = useAuth();
+  const { logout, currentUser } = useAuth();
   return (
     <View>
+      <Text>{currentUser?.username}</Text>
       <Text>You are not authorized to access this part of the app :(</Text>
       <Text>Please contact the admin</Text>
       <Button onPress={logout}>Logout</Button>

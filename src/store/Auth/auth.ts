@@ -16,8 +16,8 @@ export const getUser = (id: string) => {
   return db.collection('users').where('userID', '==', id).get();
 };
 
-export const saveUser = (userID: string, email: string, username: string) => {
-  db.collection('users')
+export const saveUser = async (userID: string, email: string, username: string) => {
+  await db.collection('users')
     .add({
       email,
       isAdmin: false,

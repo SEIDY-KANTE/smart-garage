@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/auth-context';
-import UnAuthorizedStack from './UnAuthorizedStack';
+import UnAuthorizedStack from '../screens/Auth/UnAuthorizedStack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, SettingsTab, ProfileTab, HistoryTab } from '../components/Tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,6 +8,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import globalStyles from '../common';
 import IconButton from '../components/UI/IconButton';
+import { RootStackParamList } from './AuthStack';
 
 export type BottomStackParamList = {
   Home: undefined;
@@ -23,8 +24,12 @@ const HomeStack = () => {
   const { currentUser, logout } = useAuth();
 
   const navigation = useNavigation<HomeStackProps>();
+  const navigationAuth = useNavigation<RootStackParamList>();
 
-  if (false) return <UnAuthorizedStack />;
+  // if (!currentUser?.isAuthorized) return <UnAuthorizedStack />;
+  if (false) {
+    // navigation.navigate('UnAthorized');
+  }
 
   const navigateToProfile = () => {
     navigation.navigate('Profile');

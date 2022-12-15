@@ -49,8 +49,10 @@ const AuthContextProvider: FC<{ children: ReactNode }> = (props) => {
   const login = async (email: string, password: string) => {
     try {
       await loginUser(email, password);
+      setIsLoggedIn(true);
     } catch (error) {
       setError(ErrorMessages.invalidCredentials);
+      setIsLoggedIn(false);
       throw error;
     }
   };
@@ -99,8 +101,6 @@ const AuthContextProvider: FC<{ children: ReactNode }> = (props) => {
   useEffect(() => {
     const subscriber = auth.onAuthStateChanged((user: any) => {
       if (user) {
-        setIsLoggedIn(true);
-
         const userID = user.uid;
         setUserID(userID);
 
@@ -108,13 +108,12 @@ const AuthContextProvider: FC<{ children: ReactNode }> = (props) => {
           retrieveUser();
         }
       } else {
-        setIsLoggedIn(false);
         setCurrentUser(null);
       }
     });
 
     return () => subscriber();
-  }, []);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (!isSigningup) return;

@@ -12,11 +12,10 @@ export type Description = {
 
 type CardProps = {
   title: string;
-  description?: Description;
   children: React.ReactNode;
 };
 
-const Card: FC<CardProps> = ({ title, description, children }) => {
+const Card: FC<CardProps> = ({ title, children }) => {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
@@ -27,28 +26,7 @@ const Card: FC<CardProps> = ({ title, description, children }) => {
         />
         <Text style={styles.title}>{title}</Text>
       </View>
-      <View style={styles.cardContent}>
-        <View style={styles.detailsContainer}>
-          <Ionicons name="golf-outline" size={24} color="salmon" />
-          <Text style={[styles.detailsText, { marginLeft: -45 }]}>
-            State: {description?.state}
-          </Text>
-          <Switch defaultChecked onChange={() => console.log('toggle!')} />
-        </View>
-        <View
-          style={[styles.detailsContainer, { justifyContent: 'space-around' }]}
-        >
-          <Ionicons
-            style={{ marginLeft: -35 }}
-            name="recording-outline"
-            size={24}
-            color="salmon"
-          />
-          <Text style={styles.detailsText}>
-            Last Action: {description?.lastAction}
-          </Text>
-        </View>
-      </View>
+      <View style={styles.cardContent}></View>
       {children}
     </View>
   );
@@ -71,7 +49,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: globalStyles.colors.salmon,
+    backgroundColor: globalStyles.colors.accent,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -85,17 +63,5 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     padding: 10,
-  },
-  detailsContainer: {
-    marginBottom: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  detailsText: {
-    // marginLeft: -10,
-    fontFamily: globalStyles.fontFamily.primary,
-    fontSize: 14,
-    color: globalStyles.colors.black,
   },
 });

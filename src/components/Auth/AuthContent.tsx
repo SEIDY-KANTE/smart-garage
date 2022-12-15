@@ -83,7 +83,7 @@ const AuthContent: FC<AuthContentProps> = ({ isLogin, onLogin, onSignup }) => {
         {/* <Button color="purple" textColor="white" onPress={switchAuthMode}>
           {isLogin ? 'Sign up instead' : 'Login instead'}
         </Button> */}
-        <FlatButton color="purple" textColor="white" onPress={switchAuthMode}>
+        <FlatButton color="salmon" textColor="white" onPress={switchAuthMode}>
           {isLogin ? 'Signup instead' : 'Login instead'}
         </FlatButton>
       </View>
