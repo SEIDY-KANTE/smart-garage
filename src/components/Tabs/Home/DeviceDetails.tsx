@@ -23,7 +23,7 @@ const DeviceDetails: FC<DeviceDetailsProps> = ({ name, visible, onClose }) => {
           }
         />
         <Text style={styles.title}>{name}</Text>
-        <ConfigForm onClose={onClose}/>
+        <ConfigForm onClose={onClose} />
       </View>
     </Modal>
   );
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     fontFamily: globalStyles.fontFamily.secondary,
     fontSize: 24,
     color: globalStyles.colors.darkTeal,
+    marginBottom: 10,
   },
   image: {
     width: 150,

@@ -13,16 +13,16 @@ const AppStack = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <LinearGradient
+      {/* <LinearGradient
         colors={[globalStyles.colors.cyan, globalStyles.colors.green]}
         start={[0, 0]}
         end={[1, 1]}
         style={styles.rootScreen}
-      >
-        <SafeAreaView style={styles.rootScreen}>
-          {isLoggedIn ? <HomeStack /> : <AuthStack />}
-        </SafeAreaView>
-      </LinearGradient>
+      > */}
+      <SafeAreaView style={styles.rootScreen}>
+        {isLoggedIn ? <HomeStack /> : <AuthStack />}
+      </SafeAreaView>
+      {/* </LinearGradient> */}
     </View>
   );
 };

@@ -23,8 +23,8 @@ const AuthStack = () => {
         contentStyle: { backgroundColor: globalStyles.colors.white },
       }}
     >
-      <Stack.Screen name="Signup" component={SignupScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Signup" component={SignupScreen} />
       <Stack.Screen name="UnAthorized" component={UnAuthorizedStack} />
     </Stack.Navigator>
   );

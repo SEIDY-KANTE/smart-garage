@@ -1,14 +1,65 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import Button from '../UI/Button';
+import { useAuth } from '../../context/auth-context';
+import globalStyles from '../../common';
+import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '../../context/theme-context';
+import UserAvatar from './UserAvatar';
 
 const ProfileTab = () => {
+  const { currentUser, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
+
   return (
-    <View>
-      <Text>ProfileTab</Text>
+    <View style={styles.container}>
+      <UserAvatar />
+      <View style={styles.flexContainer}>
+        <Text style={styles.text}>Username:</Text>
+        <Text style={styles.text}>{currentUser?.username}</Text>
+      </View>
+      <View style={styles.flexContainer}>
+        <Text style={styles.text}>Status:</Text>
+        <Text style={styles.text}>
+          {currentUser?.isAdmin ? 'Admin' : 'Aurthorized'}
+        </Text>
+      </View>
+      <View style={styles.flexContainer}>
+        <Text style={styles.text}>Theme: </Text>
+        <View style={styles.themeButton}>
+          <Button onPress={toggleTheme}>
+            <Ionicons
+              name={theme === 'dark' ? 'moon' : 'sunny'}
+              size={24}
+              color={globalStyles.colors.teal}
+            ></Ionicons>
+          </Button>
+        </View>
+      </View>
+      <Button onPress={logout} color={globalStyles.colors.accent}>
+        Logout
+      </Button>
     </View>
-  )
-}
+  );
+};
 
-export default ProfileTab
+export default ProfileTab;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  text: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  themeButton: {
+    alignItems: 'flex-end',
+    marginBottom: 20,
+  },
+  flexContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});

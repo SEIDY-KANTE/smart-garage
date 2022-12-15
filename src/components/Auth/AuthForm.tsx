@@ -61,7 +61,7 @@ const AuthForm: FC<AuthFormProps> = ({ isLogin, onSubmit, formValidity }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <Input
         label="Email Address"
         value={enteredEmail}
@@ -101,7 +101,7 @@ const AuthForm: FC<AuthFormProps> = ({ isLogin, onSubmit, formValidity }) => {
         />
       )}
       {error && <Text style={styles.error}>{error}</Text>}
-      <View>
+      <View style={styles.buttonContainer}>
         <Button onPress={submitHandler}>
           {isLogin ? 'Login' : 'Create Account'}
         </Button>
@@ -113,10 +113,10 @@ const AuthForm: FC<AuthFormProps> = ({ isLogin, onSubmit, formValidity }) => {
 export default AuthForm;
 
 const styles = StyleSheet.create({
-  container: {
-    // height: '100%',
-  },
   error: {
     color: globalStyles.colors.orangered,
+  },
+  buttonContainer: {
+    marginTop: 15,
   },
 });

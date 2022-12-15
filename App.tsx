@@ -6,6 +6,7 @@ import AuthContextProvider from './src/context/auth-context';
 import HomeStack from './src/navigation/HomeStack';
 import { StatusBar } from 'expo-status-bar';
 import { LogBox } from 'react-native';
+import ThemeContextProvider from './src/context/theme-context';
 
 LogBox.ignoreLogs([
   'Warning: Async Storage has been extracted from react-native core',
@@ -18,11 +19,13 @@ const App = () => {
 
   return (
     <AuthContextProvider>
-      <NavigationContainer>
-        <StatusBar style="light" />
-        {/* <AppStack /> */}
-        <HomeStack />
-      </NavigationContainer>
+      <ThemeContextProvider>
+        <NavigationContainer>
+          <StatusBar style="light" />
+          {/* <AppStack /> */}
+          <HomeStack />
+        </NavigationContainer>
+      </ThemeContextProvider>
     </AuthContextProvider>
   );
 };
