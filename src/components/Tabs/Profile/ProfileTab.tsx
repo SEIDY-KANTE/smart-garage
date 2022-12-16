@@ -5,7 +5,7 @@ import { useAuth } from '../../../context/auth-context';
 import globalStyles from '../../../common';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../../context/theme-context';
-import UserAvatar from '../UserAvatar';
+import UserAvatar from './UserAvatar';
 
 const ProfileTab = () => {
   const { currentUser, logout } = useAuth();
@@ -21,7 +21,7 @@ const ProfileTab = () => {
       <View style={styles.flexContainer}>
         <Text style={styles.text}>Status:</Text>
         <Text style={styles.text}>
-          {currentUser?.isAdmin ? 'Admin' : 'Aurthorized'}
+          {currentUser?.isAdmin ? '👤 Admin' : '✅ Authorized'}
         </Text>
       </View>
       <View style={styles.flexContainer}>

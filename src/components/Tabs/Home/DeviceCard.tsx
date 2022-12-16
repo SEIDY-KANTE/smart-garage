@@ -6,6 +6,7 @@ import Card from '../../UI/Card';
 import { Ionicons } from '@expo/vector-icons';
 import DeviceDetails from './DeviceDetails';
 import { Switch } from '@ant-design/react-native';
+import { useDevices } from '../../../context/device-context';
 
 type DeviceProps = {
   name: string;
@@ -13,21 +14,21 @@ type DeviceProps = {
 
 // type DeviceStackProps = StackNavigationProp<HomeStackParamList>;
 
-const Device: FC<DeviceProps> = ({ name }) => {
+const DeviceCard: FC<DeviceProps> = ({ name }) => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   // const navigation = useNavigation<DeviceStackProps>();
+  const { garageDoor, deliveryBox, updateDevice } = useDevices();
+
   const showModal = () => setModalIsVisible(true);
   const hideModal = () => setModalIsVisible(false);
 
   return (
     <Pressable onPress={showModal}>
-      <Card
-        title={name}
-      >
+      <Card title={name}>
         <View style={styles.detailsContainer}>
           <Ionicons name="golf-outline" size={24} color="salmon" />
           <Text style={[styles.detailsText, { marginLeft: -45 }]}>
-            State: 'Open'
+            State: {garageDoor?.isOpen ? 'Open' : 'Closed'}
           </Text>
           <Switch defaultChecked onChange={() => console.log('toggle!')} />
         </View>
@@ -56,7 +57,7 @@ const Device: FC<DeviceProps> = ({ name }) => {
           <DeviceDetails
             name={name}
             visible={modalIsVisible}
-            onClose={hideModal}
+            onCancel={hideModal}
           />
         </View>
       </Card>
@@ -64,7 +65,7 @@ const Device: FC<DeviceProps> = ({ name }) => {
   );
 };
 
-export default Device;
+export default DeviceCard;
 
 const styles = StyleSheet.create({
   buttonContainer: {

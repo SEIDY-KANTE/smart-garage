@@ -42,20 +42,18 @@ const histories = [
 
 const HistoryTab = () => {
   return (
-    <ScrollView>
-      <FlatList
-        data={histories}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <HistoryItem
-            device={item.device}
-            state={item.state}
-            time={item.time}
-            user={item.user}
-          />
-        )}
-      />
-    </ScrollView>
+    <FlatList
+      data={histories}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => (
+        <HistoryItem
+          device={item.device}
+          state={item.state}
+          time={item.time}
+          user={item.user}
+        />
+      )}
+    />
   );
 };
 

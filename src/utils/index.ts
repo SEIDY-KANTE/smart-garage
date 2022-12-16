@@ -4,3 +4,7 @@ const emailRegex =
 export const validateEmail = (email: string): boolean => {
   return emailRegex.test(email.trim().toLowerCase());
 };
+
+export const isValidNumber = (number: string): boolean => {
+  return !isNaN(Number(number));
+};

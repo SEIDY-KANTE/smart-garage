@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { FC, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import AuthForm, { FormValues } from './AuthForm';
-import { validateEmail } from '../../utils/emailValidation';
+import { validateEmail } from '../../utils';
 import globalStyles from '../../common';
 import FlatButton from '../UI/Button';
 import { StackNavigationProp } from '@react-navigation/stack';

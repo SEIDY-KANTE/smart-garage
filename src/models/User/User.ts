@@ -1,12 +1,11 @@
-import IUser from './IUser';
-
-class User implements IUser {
+import UserType from './UserType';
+class User {
   uid: string;
   username: string;
   email: string;
   isAdmin: boolean;
   isAuthorized: boolean;
-  constructor(authData: IUser) {
+  constructor(authData: UserType) {
     this.uid = authData.uid;
     this.email = authData.email;
     this.username = authData.username;

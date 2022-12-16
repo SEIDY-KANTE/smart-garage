@@ -1,4 +1,4 @@
-import { auth, db } from './firebase';
+import { auth, db } from '../firebase';
 
 export const loginUser = async (email: string, password: string) => {
   return auth.signInWithEmailAndPassword(email, password);
@@ -16,8 +16,13 @@ export const getUser = (id: string) => {
   return db.collection('users').where('userID', '==', id).get();
 };
 
-export const saveUser = async (userID: string, email: string, username: string) => {
-  await db.collection('users')
+export const saveUser = async (
+  userID: string,
+  email: string,
+  username: string
+) => {
+  await db
+    .collection('users')
     .add({
       email,
       isAdmin: false,

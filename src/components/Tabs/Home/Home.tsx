@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Device from './Device';
+import DeviceCard from './DeviceCard';
+import DevicesContextProvider from '../../../context/device-context';
 
 type DeviceDetailsProps = {
   deviceName: string;
@@ -16,10 +17,12 @@ const Stack = createStackNavigator<HomeStackParamList>();
 
 const Home = () => {
   return (
-    <View style={styles.container}>
-      <Device name="Garage Door" />
-      <Device name="Delivery Box" />
-    </View>
+    <DevicesContextProvider>
+      <View style={styles.container}>
+        <DeviceCard name="Garage Door" />
+        <DeviceCard name="Delivery Box" />
+      </View>
+    </DevicesContextProvider>
   );
 };
 

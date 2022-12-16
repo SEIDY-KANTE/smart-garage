@@ -5,6 +5,7 @@ import globalStyles from '../../common';
 interface IProps {
   children: ReactNode;
   onPress: () => void;
+  style?: any;
   color?: string;
   textColor?: string;
 }
@@ -20,6 +21,7 @@ const Button = (props: IProps) => {
     {
       backgroundColor: props.color || globalStyles.colors.subtleTeal2,
     },
+    props.style,
   ];
 
   return (

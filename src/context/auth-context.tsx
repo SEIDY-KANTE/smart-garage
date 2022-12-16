@@ -6,9 +6,9 @@ import React, {
   useState,
   useContext,
 } from 'react';
-import IUser from '../models/User/IUser';
+import UserType from '../models/User/UserType';
 import User from '../models/User/User';
-import { auth } from '../store/Auth/firebase';
+import { auth } from '../store/firebase';
 import {
   getUser,
   loginUser,
@@ -19,7 +19,7 @@ import {
 import { ErrorMessages } from '../components/Auth/ErrorMessages';
 
 interface IAuthContext {
-  currentUser: IUser | null;
+  currentUser: UserType | null;
   isLoggedIn: boolean;
   error: string | null;
   login: (email: string, password: string) => void;
@@ -41,7 +41,7 @@ export const useAuth = () => useContext(AuthContext);
 const AuthContextProvider: FC<{ children: ReactNode }> = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSigningup, setIsSigningup] = useState(false);
-  const [currentUser, setCurrentUser] = useState<IUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [userID, setUserID] = useState('');
   const [signupInfo, setSignUpInfo] = useState({ email: '', username: '' });
