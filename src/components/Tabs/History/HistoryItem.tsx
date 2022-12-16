@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { FC } from 'react';
-import globalStyles from '../../common';
-import UserAvatar from './UserAvatar';
+import globalStyles from '../../../common';
+import UserAvatar from '../Profile/UserAvatar';
 import { Ionicons } from '@expo/vector-icons';
 
 type HistoryItemProps = {

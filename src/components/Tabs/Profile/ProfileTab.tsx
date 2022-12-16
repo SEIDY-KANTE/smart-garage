@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import Button from '../UI/Button';
-import { useAuth } from '../../context/auth-context';
-import globalStyles from '../../common';
+import Button from '../../UI/Button';
+import { useAuth } from '../../../context/auth-context';
+import globalStyles from '../../../common';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../../context/theme-context';
-import UserAvatar from './UserAvatar';
+import { useTheme } from '../../../context/theme-context';
+import UserAvatar from '../UserAvatar';
 
 const ProfileTab = () => {
   const { currentUser, logout } = useAuth();

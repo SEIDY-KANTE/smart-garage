@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { FC } from 'react';
 import { Avatar } from 'react-native-elements';
-import globalStyles from '../../common';
-import { useAuth } from '../../context/auth-context';
+import globalStyles from '../../../common';
+import { useAuth } from '../../../context/auth-context';
 
 const UserAvatar: FC<{ size?: number; color?: string }> = ({ size, color }) => {
   const currentUser = useAuth();
