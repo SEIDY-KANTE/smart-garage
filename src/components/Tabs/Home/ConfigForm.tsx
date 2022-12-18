@@ -17,7 +17,9 @@ type ConfigFormProps = {
   onSave: (
     isOpenSelected: boolean,
     autoLockIsTurnedOn: boolean,
-    lockAfterMins: number
+    lockAfterMins: number,
+    alertIsTurnedOn: boolean,
+    alertAfterMins: number
   ) => void;
 };
 
@@ -48,11 +50,13 @@ const ConfigForm: FC<ConfigFormProps> = ({
   }, [fadeAnim]);
 
   const updateLockAfter = (value: string) => {
-    if (value === '') {
-      setLockAfter(0);
-      return;
-    }
-    setLockAfter(parseInt(value));
+    if (value === '') setLockAfter(0);
+    else setLockAfter(parseInt(value));
+  };
+
+  const updateAlertMins = (value: string) => {
+    if (value === '') setAlertMins(0);
+    else setAlertMins(parseInt(value));
   };
 
   const toggleState = () => {
@@ -60,11 +64,16 @@ const ConfigForm: FC<ConfigFormProps> = ({
   };
 
   const saveHandler = () => {
-    if (autoLockIsOn && lockAfter < 1) {
+    if (autoLockIsTurnedOn && lockAfter < 1) {
       setError('Lock after must be greater than 0');
       return;
     }
-    onSave(opened, autoLockIsTurnedOn, lockAfter);
+    if (alertIsTurnedOn && alertMins < 1) {
+      setError('Alert after must be greater than 0');
+      return;
+    }
+
+    onSave(opened, autoLockIsTurnedOn, lockAfter, alertIsTurnedOn, alertMins);
     setError('');
   };
 
@@ -84,7 +93,7 @@ const ConfigForm: FC<ConfigFormProps> = ({
         <Text style={styles.text}>Auto-lock</Text>
         <Switch
           defaultChecked
-          checked={autoLockIsOn}
+          checked={autoLockIsTurnedOn}
           onPress={() => setAutoLockIsTurnedOn((prev) => !prev)}
           checkedChildren="On"
           unCheckedChildren="Off"
@@ -115,9 +124,9 @@ const ConfigForm: FC<ConfigFormProps> = ({
       {alertIsTurnedOn && (
         <Animated.View style={{ opacity: fadeAnim }}>
           <Input
-            label="Lock After (minutes)"
+            label="Alert after (minutes)"
             value={alertMins?.toString()}
-            onUpdateValue={updateLockAfter}
+            onUpdateValue={updateAlertMins}
             keyboardType="number-pad"
             isInvalid={!!error}
             errorMessage={error}

@@ -49,7 +49,7 @@ const HistoryTab = () => {
         <HistoryItem
           device={item.device}
           state={item.state}
-          time={item.time}
+          dateAndTime={item.time}
           user={item.user}
         />
       )}

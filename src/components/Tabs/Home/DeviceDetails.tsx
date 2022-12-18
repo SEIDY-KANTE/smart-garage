@@ -21,15 +21,24 @@ const DeviceDetails: FC<DeviceDetailsProps> = ({
   const { updateDevice } = useDevices();
 
   const onSaveSettings = (
-    opened: boolean,
-    autoLockIsTurnedOn: boolean,
-    lockAfterMins: number
+    isOpen: boolean,
+    autoLockIsOn: boolean,
+    lockAfterMins: number,
+    alertIsOn: boolean,
+    alertAfterMins: number
   ) => {
-    if (opened) updateDevice(device, Actions.OPEN);
-    else updateDevice(device, Actions.CLOSE);
-    // if (autoLockIsTurnedOn)
-    //   return updateDevice(garageDoor, Actions.SET_AUTO_LOCK);
-    // if (lockAfterMins) return updateDevice(garageDoor, Actions.SET_LOCK_AFTER);
+    updateDevice(
+      {
+        ...device,
+        isOpen,
+        autoLockIsOn,
+        lockAfterMins,
+        alertIsOn,
+        alertAfterMins,
+      },
+      Actions.UPDATE_SETTINGS
+    );
+    
     onCancel();
   };
 
@@ -56,11 +65,11 @@ const DeviceDetails: FC<DeviceDetailsProps> = ({
           <Text style={styles.title}>{device.name}</Text>
         </Animated.View>
         <ConfigForm
-          alertIsOn={device.alertIsOn}
-          alertAfterMins={device.alertAfterMins}
           isOpen={device.isOpen}
           autoLockIsOn={device.autoLockIsOn}
           lockAfterMins={device.lockAfterMins}
+          alertIsOn={device.alertIsOn}
+          alertAfterMins={device.alertAfterMins}
           onSave={onSaveSettings}
           onCancel={onCancel}
         />

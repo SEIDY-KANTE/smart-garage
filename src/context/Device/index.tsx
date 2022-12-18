@@ -147,7 +147,25 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         }
         setIsLoading(false);
         break;
-      case Actions.SET_AUTO_LOCK:
+      case Actions.UPDATE_SETTINGS:
+        setIsLoading(true);
+        if (device.isOpen) {
+          await open(device.name);
+        } else {
+          await close(device.name);
+        }
+        if (device.name == DeviceName.GARAGE_DOOR) {
+          setGarageDoor({
+            ...device,
+            lastActionTime: new Date(),
+          });
+        } else {
+          setDeliveryBox({
+            ...device,
+            lastActionTime: new Date(),
+          });
+        }
+        setIsLoading(false);
         break;
       default:
         break;

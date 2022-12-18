@@ -7,11 +7,16 @@ import { Ionicons } from '@expo/vector-icons';
 type HistoryItemProps = {
   device: string;
   state: string;
-  time: string;
+  dateAndTime: string;
   user: string;
 };
 
-const HistoryItem: FC<HistoryItemProps> = ({ device, state, time, user }) => {
+const HistoryItem: FC<HistoryItemProps> = ({
+  device,
+  state,
+  dateAndTime: time,
+  user,
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>

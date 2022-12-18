@@ -21,9 +21,15 @@ export const getFormattedDate = (timestamp: Date): string => {
 };
 
 export const getFormattedTime = (timestamp: Date): string => {
-  return timestamp.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  });
+  let hours = timestamp.getHours();
+  let minutes: number | string = timestamp.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  hours %= 12;
+  hours = hours || 12;
+  minutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  const strTime = `${hours}:${minutes} ${ampm}`;
+
+  return strTime;
 };
