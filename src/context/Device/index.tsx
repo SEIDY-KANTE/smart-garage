@@ -10,7 +10,9 @@ import { Actions } from '.././Actions/DeviceActions';
 import { close, open } from '../../store/Devices';
 import { GarageDoor, DeliveryBox } from './Devices';
 import DeviceName from '../../models/Device/DeviceName';
-import { getDevices, updateDeviceOnDb } from '../Actions/dbActions';
+import { addHistory, getDevices, updateDeviceOnDb } from '../Actions/dbActions';
+import { useAuth } from '../auth-context';
+import History from '../../models/History';
 
 interface IDevicesContext {
   garageDoor: Device;
@@ -32,6 +34,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [garageDoor, setGarageDoor] = useState<Device>(GarageDoor);
   const [deliveryBox, setDeliveryBox] = useState<Device>(DeliveryBox);
   const [isLoading, setIsLoading] = useState(true);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     setIsLoading(true);
@@ -65,6 +68,15 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     updateDeviceOnDb(garageDoor);
+    const newHistory = new History({
+      id: '',
+      device: garageDoor.name,
+      isOpen: garageDoor.isOpen,
+      user: currentUser!.username,
+      createdAt: new Date(),
+    });
+    
+    addHistory(newHistory);
   }, [garageDoor, updateDeviceOnDb]);
 
   useEffect(() => {

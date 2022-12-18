@@ -33,19 +33,9 @@ const DeviceCard: FC<DeviceProps> = ({ device }) => {
       <Card title={device.name}>
         <View style={styles.detailsContainer}>
           <Ionicons name="golf-outline" size={24} color="salmon" />
-          <Text style={[styles.detailsText, { marginLeft: -45 }]}>
+          <Text style={[styles.detailsText, { marginRight: 155 }]}>
             State: {device?.isOpen ? 'Open' : 'Closed'}
           </Text>
-          <Button
-            onPress={onToggle}
-            color={
-              device.isOpen
-                ? globalStyles.colors.accent
-                : globalStyles.colors.green
-            }
-          >
-            {device.isOpen ? 'Close' : 'Open'}
-          </Button>
         </View>
         <View
           style={[
@@ -74,6 +64,17 @@ const DeviceCard: FC<DeviceProps> = ({ device }) => {
               <Ionicons name="build-outline" size={20} color="white" />
             </View>
           </Button>
+          <Button
+            onPress={onToggle}
+            color={
+              device.isOpen
+                ? globalStyles.colors.gray2
+                : globalStyles.colors.green
+            }
+            style={{ width: 120, height: 38 }}
+          >
+            {device.isOpen ? 'Close' : 'Open'}
+          </Button>
           <DeviceDetails
             device={device}
             visible={modalIsVisible}
@@ -89,7 +90,9 @@ export default DeviceCard;
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 10,
   },
   buttonText: {

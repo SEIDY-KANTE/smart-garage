@@ -14,7 +14,7 @@ type HistoryItemProps = {
 const HistoryItem: FC<HistoryItemProps> = ({
   device,
   state,
-  dateAndTime: time,
+  dateAndTime,
   user,
 }) => {
   return (
@@ -40,7 +40,7 @@ const HistoryItem: FC<HistoryItemProps> = ({
             name="time-outline"
             color={globalStyles.colors.darkTeal}
           />
-          <Text style={styles.text}>at {time}</Text>
+          <Text style={styles.text}>at {dateAndTime}</Text>
         </View>
       </View>
       <View style={styles.user}>

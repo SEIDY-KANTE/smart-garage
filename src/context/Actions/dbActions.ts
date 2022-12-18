@@ -1,5 +1,6 @@
 import Device from '../../models/Device/Device';
 import { db } from '../../store/firebase';
+import History from '../../models/History';
 
 export const getDb = () => {
   return db;
@@ -18,6 +19,10 @@ export const updateDeviceOnDb = async (device: Device) => {
     .collection('devices')
     .doc(device.id)
     .update({ ...device, lastActionTime: device.lastActionTime.toString() });
+};
+
+export const addHistory = async (newHistory: History) => {
+  return db.collection('history').add(newHistory);
 };
 
 // export const updateDevice = async (name: string, value: any) => {
