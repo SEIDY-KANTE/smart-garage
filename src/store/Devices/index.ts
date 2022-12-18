@@ -28,7 +28,7 @@ export const open = async (deviceName: string) => {
       ? GARAGE_DOOR_WRITE_API_URL
       : DELIVERY_BOX_WRITE_API_URL;
 
-  axios.post(`${BASE_URL}${Command.CLOSED}`);
+  axios.post(`${BASE_URL}${Command.OPEN}`);
 };
 
 export const close = async (deviceName: string) => {

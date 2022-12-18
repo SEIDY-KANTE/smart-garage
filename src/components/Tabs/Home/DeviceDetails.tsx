@@ -2,32 +2,34 @@ import { Animated, Image, Modal, StyleSheet, Text, View } from 'react-native';
 import React, { FC, useEffect, useRef } from 'react';
 import globalStyles from '../../../common';
 import ConfigForm from './ConfigForm';
-import { useDevices } from '../../../context/device-context';
-import DeviceName from '../../../models/Device/DeviceName';
+import { useDevices } from '../../../context/Device';
 import { Actions } from '../../../context/Actions/DeviceActions';
+import Device from '../../../models/Device/Device';
 
 type DeviceDetailsProps = {
-  name?: string;
+  device: Device;
   onCancel: () => void;
   visible: boolean;
 };
 
-const DeviceDetails: FC<DeviceDetailsProps> = ({ name, visible, onCancel }) => {
+const DeviceDetails: FC<DeviceDetailsProps> = ({
+  device,
+  onCancel,
+  visible,
+}) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const { garageDoor, deliveryBox, updateDevice } = useDevices();
+  const { updateDevice } = useDevices();
 
   const onSaveSettings = (
-    isOpenSelected: boolean,
+    opened: boolean,
     autoLockIsTurnedOn: boolean,
     lockAfterMins: number
   ) => {
-    if (name == DeviceName.GARAGE_DOOR) {
-      if (isOpenSelected) return updateDevice(garageDoor, Actions.OPEN);
-    }
-    if (name == DeviceName.DELIVERY_BOX) {
-      if (isOpenSelected) return updateDevice(deliveryBox, Actions.OPEN);
-    }
-
+    if (opened) updateDevice(device, Actions.OPEN);
+    else updateDevice(device, Actions.CLOSE);
+    // if (autoLockIsTurnedOn)
+    //   return updateDevice(garageDoor, Actions.SET_AUTO_LOCK);
+    // if (lockAfterMins) return updateDevice(garageDoor, Actions.SET_LOCK_AFTER);
     onCancel();
   };
 
@@ -46,29 +48,19 @@ const DeviceDetails: FC<DeviceDetailsProps> = ({ name, visible, onCancel }) => {
           <Image
             style={styles.image}
             source={
-              name == 'Garage Door'
+              device.name == 'Garage Door'
                 ? require('../../../../assets/images/garage.png')
                 : require('../../../../assets/images/delivery-box.png')
             }
           />
-          <Text style={styles.title}>{name}</Text>
+          <Text style={styles.title}>{device.name}</Text>
         </Animated.View>
         <ConfigForm
-          isOpen={
-            (name === DeviceName.GARAGE_DOOR
-              ? garageDoor?.isOpen
-              : deliveryBox?.isOpen) || false
-          }
-          autoLockIsOn={
-            (name === DeviceName.GARAGE_DOOR
-              ? garageDoor?.autoLockIsOn
-              : deliveryBox?.autoLockIsOn) || false
-          }
-          lockAfterMins={
-            (name === DeviceName.GARAGE_DOOR
-              ? garageDoor?.lockAfterMins
-              : deliveryBox?.lockAfterMins) || 0
-          }
+          alertIsOn={device.alertIsOn}
+          alertAfterMins={device.alertAfterMins}
+          isOpen={device.isOpen}
+          autoLockIsOn={device.autoLockIsOn}
+          lockAfterMins={device.lockAfterMins}
           onSave={onSaveSettings}
           onCancel={onCancel}
         />

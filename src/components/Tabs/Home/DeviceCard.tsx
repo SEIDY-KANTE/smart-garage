@@ -1,39 +1,59 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import globalStyles from '../../../common';
 import Button from '../../UI/Button';
 import Card from '../../UI/Card';
 import { Ionicons } from '@expo/vector-icons';
 import DeviceDetails from './DeviceDetails';
 import { Switch } from '@ant-design/react-native';
-import { useDevices } from '../../../context/device-context';
+import { useDevices } from '../../../context/Device';
+import DeviceName from '../../../models/Device/DeviceName';
+import { Actions } from '../../../context/Actions/DeviceActions';
+import Device from '../../../models/Device/Device';
+import { getDateAndTime, getFormattedTime } from '../../../utils';
 
 type DeviceProps = {
-  name: string;
+  device: Device;
 };
 
 // type DeviceStackProps = StackNavigationProp<HomeStackParamList>;
-
-const DeviceCard: FC<DeviceProps> = ({ name }) => {
+const DeviceCard: FC<DeviceProps> = ({ device }) => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
+
   // const navigation = useNavigation<DeviceStackProps>();
-  const { garageDoor, deliveryBox, updateDevice } = useDevices();
+  const { updateDevice } = useDevices();
 
   const showModal = () => setModalIsVisible(true);
   const hideModal = () => setModalIsVisible(false);
 
+  const onToggle = () => {
+    updateDevice(device, Actions.TOGGLE);
+  };
+
   return (
     <Pressable onPress={showModal}>
-      <Card title={name}>
+      <Card title={device.name}>
         <View style={styles.detailsContainer}>
           <Ionicons name="golf-outline" size={24} color="salmon" />
           <Text style={[styles.detailsText, { marginLeft: -45 }]}>
-            State: {garageDoor?.isOpen ? 'Open' : 'Closed'}
+            State: {device?.isOpen ? 'Open' : 'Closed'}
           </Text>
-          <Switch defaultChecked onChange={() => console.log('toggle!')} />
+          <Button
+            onPress={onToggle}
+            color={
+              device.isOpen
+                ? globalStyles.colors.accent
+                : globalStyles.colors.green
+            }
+          >
+            {device.isOpen ? 'Close' : 'Open'}
+          </Button>
         </View>
         <View
-          style={[styles.detailsContainer, { justifyContent: 'space-around' }]}
+          style={[
+            styles.detailsContainer,
+            { justifyContent: 'space-around', marginRight: 10 },
+          ]}
         >
           <Ionicons
             style={{ marginLeft: -35 }}
@@ -42,7 +62,9 @@ const DeviceCard: FC<DeviceProps> = ({ name }) => {
             color="salmon"
           />
           <Text style={styles.detailsText}>
-            Last Action: Opened at 12:00 PM
+            Last Action:
+            {device.isOpen ? 'Opened at ' : 'Closed at '}
+            {device.lastActionTime}
           </Text>
         </View>
         <View style={styles.buttonContainer}>
@@ -55,7 +77,7 @@ const DeviceCard: FC<DeviceProps> = ({ name }) => {
             </View>
           </Button>
           <DeviceDetails
-            name={name}
+            device={device}
             visible={modalIsVisible}
             onCancel={hideModal}
           />

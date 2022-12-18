@@ -5,11 +5,14 @@ import { Switch } from '@ant-design/react-native';
 import globalStyles from '../../../common';
 import Button from '../../UI/Button';
 import { Ionicons } from '@expo/vector-icons';
+import { Actions } from '../../../context/Actions/DeviceActions';
 
 type ConfigFormProps = {
   isOpen: boolean;
   autoLockIsOn: boolean;
+  alertIsOn: boolean;
   lockAfterMins?: number;
+  alertAfterMins?: number;
   onCancel: () => void;
   onSave: (
     isOpenSelected: boolean,
@@ -22,13 +25,17 @@ const ConfigForm: FC<ConfigFormProps> = ({
   isOpen,
   autoLockIsOn,
   lockAfterMins,
+  alertIsOn,
+  alertAfterMins,
   onSave,
   onCancel,
 }) => {
-  const [isOpenSelected, setIsOpenSelected] = useState(isOpen);
+  const [opened, setOpened] = useState(isOpen);
   const [error, setError] = useState('');
   const [autoLockIsTurnedOn, setAutoLockIsTurnedOn] = useState(autoLockIsOn);
   const [lockAfter, setLockAfter] = useState(lockAfterMins || 5);
+  const [alertIsTurnedOn, setAlertIsTurnedOn] = useState(alertIsOn);
+  const [alertMins, setAlertMins] = useState(alertAfterMins || 5);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -49,7 +56,7 @@ const ConfigForm: FC<ConfigFormProps> = ({
   };
 
   const toggleState = () => {
-    setIsOpenSelected((prev) => !prev);
+    setOpened((prev) => !prev);
   };
 
   const saveHandler = () => {
@@ -57,31 +64,33 @@ const ConfigForm: FC<ConfigFormProps> = ({
       setError('Lock after must be greater than 0');
       return;
     }
-    onSave(isOpenSelected, autoLockIsTurnedOn, lockAfter);
+    onSave(opened, autoLockIsTurnedOn, lockAfter);
     setError('');
   };
 
   return (
     <View style={styles.formContainer}>
-      <View style={[styles.flexContainer, { justifyContent: 'center' }]}>
-        <Button
-          style={{ width: 120 }}
-          onPress={toggleState}
-          color={isOpenSelected ? globalStyles.colors.green : 'orangered'}
-        >
-          <Text style={{ color: 'white' }}>{isOpen ? 'Open' : 'Close'}</Text>
-        </Button>
+      <View style={styles.flexContainer}>
+        <Text style={styles.text}>State</Text>
+        <Switch
+          style={{ marginLeft: 20 }}
+          checkedChildren="Open"
+          unCheckedChildren="Closed"
+          onChange={toggleState}
+          checked={opened}
+        />
       </View>
       <View style={styles.flexContainer}>
-        <Text style={styles.text}>Auto-lock Mode</Text>
+        <Text style={styles.text}>Auto-lock</Text>
         <Switch
           defaultChecked
           checked={autoLockIsOn}
           onPress={() => setAutoLockIsTurnedOn((prev) => !prev)}
-          style={{ marginLeft: 107 }}
+          checkedChildren="On"
+          unCheckedChildren="Off"
         />
       </View>
-      {autoLockIsOn && (
+      {autoLockIsTurnedOn && (
         <Animated.View style={{ opacity: fadeAnim }}>
           <Input
             label="Lock After (minutes)"
@@ -93,11 +102,37 @@ const ConfigForm: FC<ConfigFormProps> = ({
           />
         </Animated.View>
       )}
+      <View style={styles.flexContainer}>
+        <Text style={styles.text}>Alert</Text>
+        <Switch
+          defaultChecked
+          checked={alertIsTurnedOn}
+          onPress={() => setAlertIsTurnedOn((prev) => !prev)}
+          checkedChildren="On"
+          unCheckedChildren="Off"
+        />
+      </View>
+      {alertIsTurnedOn && (
+        <Animated.View style={{ opacity: fadeAnim }}>
+          <Input
+            label="Lock After (minutes)"
+            value={alertMins?.toString()}
+            onUpdateValue={updateLockAfter}
+            keyboardType="number-pad"
+            isInvalid={!!error}
+            errorMessage={error}
+          />
+        </Animated.View>
+      )}
       <View style={styles.buttonContainer}>
-        <Button onPress={saveHandler} color={globalStyles.colors.teal}>
+        <Button
+          style={{ width: '35%' }}
+          onPress={saveHandler}
+          color={globalStyles.colors.teal}
+        >
           Save
         </Button>
-        <Button onPress={onCancel} color="salmon">
+        <Button style={{ width: '35%' }} onPress={onCancel} color="salmon">
           Cancel
         </Button>
       </View>
@@ -116,30 +151,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonContainer: {
-    marginTop: 40,
-    width: '50%',
+    marginVertical: 10,
+    width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
   flexContainer: {
     borderBottomColor: globalStyles.colors.subtleTeal3,
     borderBottomWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     width: '100%',
     padding: 8,
   },
   text: {
     fontSize: 20,
-    marginBottom: 10,
-    marginTop: 10,
+    marginVertical: 5,
     marginLeft: 20,
-  },
-  stateButton: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'space-around',
-    width: '100%',
   },
 });
