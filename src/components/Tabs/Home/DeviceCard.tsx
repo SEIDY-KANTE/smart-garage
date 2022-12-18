@@ -1,16 +1,14 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import globalStyles from '../../../common';
 import Button from '../../UI/Button';
 import Card from '../../UI/Card';
 import { Ionicons } from '@expo/vector-icons';
 import DeviceDetails from './DeviceDetails';
-import { Switch } from '@ant-design/react-native';
 import { useDevices } from '../../../context/Device';
-import DeviceName from '../../../models/Device/DeviceName';
 import { Actions } from '../../../context/Actions/DeviceActions';
 import Device from '../../../models/Device/Device';
-import { getDateAndTime, getFormattedTime } from '../../../utils';
+import { getFormattedTime } from '../../../utils';
 
 type DeviceProps = {
   device: Device;
@@ -64,7 +62,7 @@ const DeviceCard: FC<DeviceProps> = ({ device }) => {
           <Text style={styles.detailsText}>
             Last Action:
             {device.isOpen ? 'Opened at ' : 'Closed at '}
-            {device.lastActionTime}
+            {getFormattedTime(device.lastActionTime)}
           </Text>
         </View>
         <View style={styles.buttonContainer}>

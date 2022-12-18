@@ -14,7 +14,10 @@ export const getDeviceByName = async (name: string) => {
 };
 
 export const updateDeviceOnDb = async (device: Device) => {
-  return db.collection('devices').doc(device.id).update(device);
+  return db
+    .collection('devices')
+    .doc(device.id)
+    .update({ ...device, lastActionTime: device.lastActionTime.toString() });
 };
 
 // export const updateDevice = async (name: string, value: any) => {

@@ -10,7 +10,7 @@ class Device {
   lockAfterMins: number;
   alertIsOn: boolean;
   alertAfterMins: number;
-  lastActionTime: string;
+  lastActionTime: Date;
   constructor(deviceData: DeviceType) {
     this.id = deviceData.id;
     this.name = deviceData.name;
@@ -19,9 +19,7 @@ class Device {
     this.lockAfterMins = deviceData.lockAfterMins;
     this.alertIsOn = deviceData.alertIsOn;
     this.alertAfterMins = deviceData.alertAfterMins;
-    this.lastActionTime = getFormattedTime(
-      getDateAndTime(deviceData.lastActionTime)
-    );
+    this.lastActionTime = deviceData.lastActionTime;
   }
 }
 

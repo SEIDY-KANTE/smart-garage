@@ -8,7 +8,7 @@ interface DeviceType {
     lockAfterMins: number;
     alertIsOn: boolean;
     alertAfterMins: number;
-    lastActionTime: any;
+    lastActionTime: Date;
 } 
 
 export default DeviceType;

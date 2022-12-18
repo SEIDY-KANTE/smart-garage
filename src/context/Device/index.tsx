@@ -43,6 +43,8 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
           snapshot.forEach((doc: any) => {
             const tempDevice = doc.data();
             tempDevice.id = doc.id;
+            tempDevice.lastActionTime = new Date(tempDevice.lastActionTime);
+
             device.push(new Device(tempDevice));
           });
           setGarageDoor(
@@ -62,10 +64,12 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [getDevices]);
 
   useEffect(() => {
-    // update server with new device
-    Promise.all([updateDeviceOnDb(garageDoor), updateDeviceOnDb(deliveryBox)]);
+    updateDeviceOnDb(garageDoor);
+  }, [garageDoor, updateDeviceOnDb]);
 
-  }, [garageDoor, deliveryBox]);
+  useEffect(() => {
+    updateDeviceOnDb(deliveryBox);
+  }, [deliveryBox, updateDeviceOnDb]);
 
   const updateDevice = async (device: Device, action: Actions) => {
     // update device on server
@@ -76,9 +80,17 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setIsLoading(true);
         await open(device.name);
         if (device.name == DeviceName.GARAGE_DOOR) {
-          setGarageDoor({ ...device, isOpen: true });
+          setGarageDoor({
+            ...device,
+            isOpen: true,
+            lastActionTime: new Date(),
+          });
         } else {
-          setDeliveryBox({ ...device, isOpen: true });
+          setDeliveryBox({
+            ...device,
+            isOpen: true,
+            lastActionTime: new Date(),
+          });
         }
         setIsLoading(false);
         break;
@@ -86,9 +98,17 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setIsLoading(true);
         await close(device.name);
         if (device.name == DeviceName.GARAGE_DOOR) {
-          setGarageDoor({ ...device, isOpen: false });
+          setGarageDoor({
+            ...device,
+            isOpen: false,
+            lastActionTime: new Date(),
+          });
         } else {
-          setDeliveryBox({ ...device, isOpen: false });
+          setDeliveryBox({
+            ...device,
+            isOpen: false,
+            lastActionTime: new Date(),
+          });
         }
         setIsLoading(false);
         break;
@@ -97,16 +117,32 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         if (device.isOpen) {
           await close(device.name);
           if (device.name == DeviceName.GARAGE_DOOR) {
-            setGarageDoor({ ...device, isOpen: false });
+            setGarageDoor({
+              ...device,
+              isOpen: false,
+              lastActionTime: new Date(),
+            });
           } else {
-            setDeliveryBox({ ...device, isOpen: false });
+            setDeliveryBox({
+              ...device,
+              isOpen: false,
+              lastActionTime: new Date(),
+            });
           }
         } else {
           await open(device.name);
           if (device.name == DeviceName.GARAGE_DOOR) {
-            setGarageDoor({ ...device, isOpen: true });
+            setGarageDoor({
+              ...device,
+              isOpen: true,
+              lastActionTime: new Date(),
+            });
           } else {
-            setDeliveryBox({ ...device, isOpen: true });
+            setDeliveryBox({
+              ...device,
+              isOpen: true,
+              lastActionTime: new Date(),
+            });
           }
         }
         setIsLoading(false);
