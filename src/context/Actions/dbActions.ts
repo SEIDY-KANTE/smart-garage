@@ -15,14 +15,16 @@ export const getDeviceByName = async (name: string) => {
 };
 
 export const updateDeviceOnDb = async (device: Device) => {
-  return db
+  return await db
     .collection('devices')
     .doc(device.id)
     .update({ ...device, lastActionTime: device.lastActionTime.toString() });
 };
 
-export const addHistory = async (newHistory: History) => {
-  return db.collection('history').add(newHistory);
+export const addHistory = async (newHistory: any) => {
+  return await db
+    .collection('history')
+    .add({ ...newHistory, dateAndTime: newHistory.dateAndTime.toString() });
 };
 
 // export const updateDevice = async (name: string, value: any) => {

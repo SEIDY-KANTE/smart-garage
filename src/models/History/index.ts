@@ -5,13 +5,13 @@ class History {
   public device: string;
   public isOpen: boolean;
   public user: string;
-  public createdAt: Date;
+  public dateAndTime: Date;
   public constructor(historyData: HistoryType) {
     this.id = historyData.id || undefined;
     this.device = historyData.device;
     this.isOpen = historyData.isOpen;
     this.user = historyData.user;
-    this.createdAt = historyData.createdAt;
+    this.dateAndTime = historyData.dateAndTime;
   }
 }
 

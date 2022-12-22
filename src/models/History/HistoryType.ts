@@ -3,5 +3,5 @@ export type HistoryType = {
     device: string;
     isOpen: boolean;
     user: string;
-    createdAt: Date;
+    dateAndTime: Date;
 }

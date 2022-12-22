@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import HistoryItem from './HistoryItem';
+import History from '../../../models/History';
 
 const histories = [
   {
@@ -41,6 +42,8 @@ const histories = [
 ];
 
 const HistoryTab = () => {
+  const [allHistory, setAllHistory] = useState<History[]>([]);
+
   return (
     <FlatList
       data={histories}

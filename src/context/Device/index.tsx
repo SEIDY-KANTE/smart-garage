@@ -68,19 +68,24 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     updateDeviceOnDb(garageDoor);
-    const newHistory = new History({
-      id: '',
+
+    addHistory({
       device: garageDoor.name,
       isOpen: garageDoor.isOpen,
-      user: currentUser!.username,
-      createdAt: new Date(),
+      user: 'epix',
+      dateAndTime: new Date(),
     });
-    
-    addHistory(newHistory);
   }, [garageDoor, updateDeviceOnDb]);
 
   useEffect(() => {
     updateDeviceOnDb(deliveryBox);
+
+    addHistory({
+      device: deliveryBox.name,
+      isOpen: deliveryBox.isOpen,
+      user: 'epix',
+      dateAndTime: new Date(),
+    });
   }, [deliveryBox, updateDeviceOnDb]);
 
   const updateDevice = async (device: Device, action: Actions) => {
