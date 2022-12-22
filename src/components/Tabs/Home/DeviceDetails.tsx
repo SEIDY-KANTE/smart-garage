@@ -18,7 +18,7 @@ const DeviceDetails: FC<DeviceDetailsProps> = ({
   visible,
 }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const { updateDevice } = useDevices();
+  const { updateDevice, activateDevice } = useDevices();
 
   const onSaveSettings = (
     isOpen: boolean,
@@ -27,6 +27,7 @@ const DeviceDetails: FC<DeviceDetailsProps> = ({
     alertIsOn: boolean,
     alertAfterMins: number
   ) => {
+    activateDevice(device);
     updateDevice(
       {
         ...device,

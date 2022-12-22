@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HistoryItem from './HistoryItem';
 import History from '../../../models/History';
 

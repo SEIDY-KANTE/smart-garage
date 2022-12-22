@@ -19,12 +19,13 @@ const DeviceCard: FC<DeviceProps> = ({ device }) => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
   // const navigation = useNavigation<DeviceStackProps>();
-  const { updateDevice } = useDevices();
+  const { updateDevice, activateDevice } = useDevices();
 
   const showModal = () => setModalIsVisible(true);
   const hideModal = () => setModalIsVisible(false);
 
   const onToggle = () => {
+    activateDevice(device);
     updateDevice(device, Actions.TOGGLE);
   };
 

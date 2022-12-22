@@ -10,83 +10,130 @@ import { Actions } from '.././Actions/DeviceActions';
 import { close, open } from '../../store/Devices';
 import { GarageDoor, DeliveryBox } from './Devices';
 import DeviceName from '../../models/Device/DeviceName';
-import { addHistory, getDevices, updateDeviceOnDb } from '../Actions/dbActions';
+import {
+  addHistory,
+  getDevices,
+  getHistory,
+  updateDeviceOnDb,
+} from '../Actions/dbActions';
 import { useAuth } from '../auth-context';
 import History from '../../models/History';
 
-interface IDevicesContext {
+interface IDevices {
   garageDoor: Device;
   deliveryBox: Device;
+}
+interface IDevicesContext {
+  allDevices: IDevices;
+  activeDevice: Device;
+  usageHistory: History[];
+  activateDevice: (device: Device) => void;
   updateDevice: (device: Device, action: Actions) => void;
-  isLoading: boolean;
 }
 
 const DevicesContext = createContext<IDevicesContext>({
-  garageDoor: GarageDoor,
-  deliveryBox: DeliveryBox,
+  allDevices: { garageDoor: GarageDoor, deliveryBox: DeliveryBox },
+  activeDevice: GarageDoor,
+  usageHistory: [],
+  activateDevice: (device: Device) => {},
   updateDevice: (device: Device | null, action: Actions) => {},
-  isLoading: true,
 });
 
 export const useDevices = () => React.useContext(DevicesContext);
 
 const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [garageDoor, setGarageDoor] = useState<Device>(GarageDoor);
-  const [deliveryBox, setDeliveryBox] = useState<Device>(DeliveryBox);
-  const [isLoading, setIsLoading] = useState(true);
+  const [allDevices, setAllDevices] = useState<IDevices>({
+    garageDoor: GarageDoor,
+    deliveryBox: DeliveryBox,
+  });
+  const [activeDevice, setActiveDevice] = useState<Device>(
+    allDevices.garageDoor
+  );
+  const [usageHistory, setUsageHistory] = useState<History[]>([]);
+
   const { currentUser } = useAuth();
 
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchDevices = async () => {
-      // fetch devices from server
-      getDevices()
-        .then((snapshot) => {
-          const device: any = [];
-          snapshot.forEach((doc: any) => {
-            const tempDevice = doc.data();
-            tempDevice.id = doc.id;
-            tempDevice.lastActionTime = new Date(tempDevice.lastActionTime);
+  const activateDevice = (device: Device) => {
+    setActiveDevice(device);
+  };
 
-            device.push(new Device(tempDevice));
-          });
-          setGarageDoor(
-            device.find((d: any) => d.name === DeviceName.GARAGE_DOOR)
-          );
-          setDeliveryBox(
-            device.find((d: any) => d.name === DeviceName.DELIVERY_BOX)
-          );
-        })
-        .catch((error) => {
-          console.log(error);
+  const fetchDevices = async () => {
+    // fetch devices from server
+    getDevices()
+      .then((snapshot) => {
+        const devices: any = {};
+        snapshot.forEach((doc: any) => {
+          const tempDevice = doc.data();
+          tempDevice.id = doc.id;
+          tempDevice.lastActionTime = new Date(tempDevice.lastActionTime);
+
+          if (tempDevice.name == DeviceName.GARAGE_DOOR)
+            devices.garageDoor = new Device(tempDevice);
+          else devices.deliveryBox = new Device(tempDevice);
         });
+        setAllDevices(devices);
+      })
+      .catch((err) => console.log(err));
+  };
 
-      setIsLoading(false);
-    };
-    fetchDevices();
-  }, [getDevices]);
+  const fetchHistory = () => {
+    getHistory()
+      .then((snapshot) => {
+        const history: any = [];
+        snapshot.forEach((doc: any) => {
+          const data = doc.data();
+          data.id = doc.id;
+          data.dateAndTime = new Date(data.dateAndTime);
+
+          history.push(new History(data));
+        });
+        setUsageHistory(history);
+        console.log(usageHistory);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
-    updateDeviceOnDb(garageDoor);
+    getDevices()
+      .then((snapshot) => {
+        const devices: any = {};
+        snapshot.forEach((doc: any) => {
+          const tempDevice = doc.data();
+          tempDevice.id = doc.id;
+          tempDevice.lastActionTime = new Date(tempDevice.lastActionTime);
+
+          if (tempDevice.name == DeviceName.GARAGE_DOOR)
+            devices.garageDoor = new Device(tempDevice);
+          else devices.deliveryBox = new Device(tempDevice);
+        });
+        setAllDevices(devices);
+      })
+      .catch((err) => console.log(err));
+    // fetchHistory();
+  }, [fetchDevices(), getDevices]);
+
+  useEffect(() => {
+    updateDeviceOnDb(activeDevice);
 
     addHistory({
-      device: garageDoor.name,
-      isOpen: garageDoor.isOpen,
+      device: activeDevice!.name,
+      isOpen: activeDevice!.isOpen,
       user: 'epix',
       dateAndTime: new Date(),
     });
-  }, [garageDoor, updateDeviceOnDb]);
 
-  useEffect(() => {
-    updateDeviceOnDb(deliveryBox);
+    function updateAllDevices() {
+      setAllDevices((prevState) => {
+        const newDeviceStates =
+          activeDevice.name == DeviceName.GARAGE_DOOR
+            ? { garageDoor: { ...prevState.garageDoor, ...activeDevice } }
+            : { deliveryBox: { ...prevState.deliveryBox, ...activeDevice } };
+        return { ...prevState, ...newDeviceStates };
+      });
+    }
 
-    addHistory({
-      device: deliveryBox.name,
-      isOpen: deliveryBox.isOpen,
-      user: 'epix',
-      dateAndTime: new Date(),
-    });
-  }, [deliveryBox, updateDeviceOnDb]);
+    updateAllDevices();
+  }, [activeDevice, updateDeviceOnDb]);
 
   const updateDevice = async (device: Device, action: Actions) => {
     // update device on server
@@ -94,95 +141,43 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     switch (action) {
       case Actions.OPEN:
-        setIsLoading(true);
-        await open(device.name);
-        if (device.name == DeviceName.GARAGE_DOOR) {
-          setGarageDoor({
-            ...device,
+        await open(activeDevice!.name);
+        setActiveDevice((prevState) => {
+          return {
+            ...prevState,
             isOpen: true,
             lastActionTime: new Date(),
-          });
-        } else {
-          setDeliveryBox({
-            ...device,
-            isOpen: true,
-            lastActionTime: new Date(),
-          });
-        }
-        setIsLoading(false);
+          };
+        });
+
         break;
       case Actions.CLOSE:
-        setIsLoading(true);
         await close(device.name);
-        if (device.name == DeviceName.GARAGE_DOOR) {
-          setGarageDoor({
-            ...device,
+        setActiveDevice((prevState) => {
+          return {
+            ...prevState,
             isOpen: false,
             lastActionTime: new Date(),
-          });
-        } else {
-          setDeliveryBox({
-            ...device,
-            isOpen: false,
-            lastActionTime: new Date(),
-          });
-        }
-        setIsLoading(false);
+          };
+        });
         break;
       case Actions.TOGGLE:
-        setIsLoading(true);
         if (device.isOpen) {
-          await close(device.name);
-          if (device.name == DeviceName.GARAGE_DOOR) {
-            setGarageDoor({
-              ...device,
-              isOpen: false,
-              lastActionTime: new Date(),
-            });
-          } else {
-            setDeliveryBox({
-              ...device,
-              isOpen: false,
-              lastActionTime: new Date(),
-            });
-          }
+          updateDevice(device, Actions.CLOSE);
         } else {
-          await open(device.name);
-          if (device.name == DeviceName.GARAGE_DOOR) {
-            setGarageDoor({
-              ...device,
-              isOpen: true,
-              lastActionTime: new Date(),
-            });
-          } else {
-            setDeliveryBox({
-              ...device,
-              isOpen: true,
-              lastActionTime: new Date(),
-            });
-          }
+          updateDevice(device, Actions.OPEN);
         }
-        setIsLoading(false);
         break;
       case Actions.UPDATE_SETTINGS:
-        setIsLoading(true);
         if (device.isOpen) {
           await open(device.name);
         } else {
           await close(device.name);
         }
-        if (device.name == DeviceName.GARAGE_DOOR) {
-          setGarageDoor({
-            ...device,
-            lastActionTime: new Date(),
-          });
-        } else {
-          setDeliveryBox({
-            ...device,
-            lastActionTime: new Date(),
-          });
-        }
-        setIsLoading(false);
+        setActiveDevice({
+          ...device,
+          lastActionTime: new Date(),
+        });
         break;
       default:
         break;
@@ -191,9 +186,10 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <DevicesContext.Provider
       value={{
-        garageDoor,
-        deliveryBox,
-        isLoading,
+        allDevices,
+        activeDevice,
+        usageHistory,
+        activateDevice,
         updateDevice,
       }}
     >

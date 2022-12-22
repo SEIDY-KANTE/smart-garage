@@ -16,12 +16,12 @@ export type HomeStackParamList = {
 const Stack = createStackNavigator<HomeStackParamList>();
 
 const Home = () => {
-  const { garageDoor, deliveryBox } = useDevices();
+  const { allDevices } = useDevices();
 
   return (
     <View style={styles.container}>
-      <DeviceCard device={garageDoor} />
-      <DeviceCard device={deliveryBox} />
+      <DeviceCard device={allDevices.garageDoor} />
+      <DeviceCard device={allDevices.deliveryBox} />
     </View>
   );
 };

@@ -10,11 +10,17 @@ export const getDevices = async () => {
   return db.collection('devices').get();
 };
 
+export const getHistory = async () => {
+  return db.collection('history').get();
+};
+
 export const getDeviceByName = async (name: string) => {
   return db.collection('devices').where(name, '==', 'name').get();
 };
 
-export const updateDeviceOnDb = async (device: Device) => {
+export const updateDeviceOnDb = async (device: Device | null) => {
+  if (!device) return;
+
   return await db
     .collection('devices')
     .doc(device.id)
