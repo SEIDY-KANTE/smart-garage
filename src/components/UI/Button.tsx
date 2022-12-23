@@ -8,6 +8,7 @@ interface IProps {
   style?: any;
   color?: string;
   textColor?: string;
+  isDisabled?: boolean;
 }
 
 const Button = (props: IProps) => {
@@ -28,6 +29,7 @@ const Button = (props: IProps) => {
     <Pressable
       style={({ pressed }) => [containerStyle, pressed && styles.pressed]}
       onPress={props.onPress}
+      disabled={props.isDisabled || false}
     >
       <View>
         <Text style={[styles.buttonText, colorStyle]}>{props.children}</Text>

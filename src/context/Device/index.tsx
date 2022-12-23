@@ -4,6 +4,7 @@ import React, {
   useState,
   ReactNode,
   FC,
+  useCallback,
 } from 'react';
 import Device from '../../models/Device/Device';
 import { Actions } from '.././Actions/DeviceActions';
@@ -50,6 +51,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     allDevices.garageDoor
   );
   const [usageHistory, setUsageHistory] = useState<History[]>([]);
+  const [deviceIsUpdated, setDeviceIsUpdated] = useState<boolean>(false);
 
   const { currentUser } = useAuth();
 
@@ -57,26 +59,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setActiveDevice(device);
   };
 
-  const fetchDevices = async () => {
-    // fetch devices from server
-    getDevices()
-      .then((snapshot) => {
-        const devices: any = {};
-        snapshot.forEach((doc: any) => {
-          const tempDevice = doc.data();
-          tempDevice.id = doc.id;
-          tempDevice.lastActionTime = new Date(tempDevice.lastActionTime);
-
-          if (tempDevice.name == DeviceName.GARAGE_DOOR)
-            devices.garageDoor = new Device(tempDevice);
-          else devices.deliveryBox = new Device(tempDevice);
-        });
-        setAllDevices(devices);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const fetchHistory = () => {
+  useEffect(() => {
     getHistory()
       .then((snapshot) => {
         const history: any = [];
@@ -84,14 +67,12 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
           const data = doc.data();
           data.id = doc.id;
           data.dateAndTime = new Date(data.dateAndTime);
-
           history.push(new History(data));
         });
         setUsageHistory(history);
-        console.log(usageHistory);
       })
       .catch((err) => console.log(err));
-  };
+  }, [getHistory]);
 
   useEffect(() => {
     getDevices()
@@ -108,32 +89,50 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         });
         setAllDevices(devices);
       })
-      .catch((err) => console.log(err));
-    // fetchHistory();
-  }, [fetchDevices(), getDevices]);
+      .catch((err) => console.log(err));;
+  }, [getDevices]);
 
   useEffect(() => {
     updateDeviceOnDb(activeDevice);
 
-    addHistory({
-      device: activeDevice!.name,
-      isOpen: activeDevice!.isOpen,
-      user: 'epix',
-      dateAndTime: new Date(),
-    });
-
     function updateAllDevices() {
       setAllDevices((prevState) => {
-        const newDeviceStates =
+        const newDeviceState =
           activeDevice.name == DeviceName.GARAGE_DOOR
             ? { garageDoor: { ...prevState.garageDoor, ...activeDevice } }
             : { deliveryBox: { ...prevState.deliveryBox, ...activeDevice } };
-        return { ...prevState, ...newDeviceStates };
+        return { ...prevState, ...newDeviceState };
       });
     }
 
     updateAllDevices();
-  }, [activeDevice, updateDeviceOnDb]);
+  }, [activeDevice, updateDeviceOnDb, addHistory]);
+
+  useEffect(() => {
+    if (!deviceIsUpdated) {
+      return;
+    }
+    addHistory({
+      device: activeDevice.name,
+      isOpen: activeDevice.isOpen,
+      user: 'epix',
+      dateAndTime: new Date(),
+    });
+
+    setUsageHistory((prevState) => {
+      return [
+        ...prevState,
+        new History({
+          id: (prevState.length + 1).toString(),
+          device: activeDevice.name,
+          isOpen: activeDevice.isOpen,
+          user: 'epix',
+          dateAndTime: new Date(),
+        }),
+      ];
+    });
+    setDeviceIsUpdated(false);
+  }, [activeDevice, addHistory, deviceIsUpdated]);
 
   const updateDevice = async (device: Device, action: Actions) => {
     // update device on server
@@ -141,7 +140,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     switch (action) {
       case Actions.OPEN:
-        await open(activeDevice!.name);
+        await open(device.name);
         setActiveDevice((prevState) => {
           return {
             ...prevState,
@@ -149,7 +148,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
             lastActionTime: new Date(),
           };
         });
-
+        setDeviceIsUpdated(true);
         break;
       case Actions.CLOSE:
         await close(device.name);
@@ -160,6 +159,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
             lastActionTime: new Date(),
           };
         });
+        setDeviceIsUpdated(true);
         break;
       case Actions.TOGGLE:
         if (device.isOpen) {
@@ -178,6 +178,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
           ...device,
           lastActionTime: new Date(),
         });
+        setDeviceIsUpdated(true);
         break;
       default:
         break;

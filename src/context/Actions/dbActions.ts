@@ -11,7 +11,7 @@ export const getDevices = async () => {
 };
 
 export const getHistory = async () => {
-  return db.collection('history').get();
+  return db.collection('history').orderBy('dateAndTime', 'desc').limit(10).get();
 };
 
 export const getDeviceByName = async (name: string) => {

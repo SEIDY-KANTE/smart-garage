@@ -13,24 +13,34 @@ import { getFormattedTime } from '../../../utils';
 type DeviceProps = {
   device: Device;
 };
-
+const actionTimeOut = 15;
 // type DeviceStackProps = StackNavigationProp<HomeStackParamList>;
 const DeviceCard: FC<DeviceProps> = ({ device }) => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
-
+  const [isDisabled, setIsDisabled] = useState(false);
   // const navigation = useNavigation<DeviceStackProps>();
   const { updateDevice, activateDevice } = useDevices();
 
   const showModal = () => setModalIsVisible(true);
-  const hideModal = () => setModalIsVisible(false);
+  const hideModal = () => {
+    setIsDisabled(true);
+    setTimeout(() => {
+      setIsDisabled(false);
+    }, actionTimeOut * 1000);
+    setModalIsVisible(false);
+  };
 
   const onToggle = () => {
     activateDevice(device);
     updateDevice(device, Actions.TOGGLE);
+    setIsDisabled(true);
+    setTimeout(() => {
+      setIsDisabled(false);
+    }, actionTimeOut * 1000);
   };
 
   return (
-    <Pressable onPress={showModal}>
+    <Pressable onPress={showModal} disabled={isDisabled}>
       <Card title={device.name}>
         <View style={styles.detailsContainer}>
           <Ionicons name="golf-outline" size={24} color="salmon" />
@@ -67,6 +77,7 @@ const DeviceCard: FC<DeviceProps> = ({ device }) => {
           </Button>
           <Button
             onPress={onToggle}
+            isDisabled={isDisabled}
             color={
               device.isOpen
                 ? globalStyles.colors.gray2
@@ -78,7 +89,7 @@ const DeviceCard: FC<DeviceProps> = ({ device }) => {
           </Button>
           <DeviceDetails
             device={device}
-            visible={modalIsVisible}
+            visible={modalIsVisible && !isDisabled}
             onCancel={hideModal}
           />
         </View>

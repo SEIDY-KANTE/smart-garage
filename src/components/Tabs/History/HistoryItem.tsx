@@ -3,18 +3,19 @@ import React, { FC } from 'react';
 import globalStyles from '../../../common';
 import UserAvatar from '../Profile/UserAvatar';
 import { Ionicons } from '@expo/vector-icons';
+import { getFormattedTime } from '../../../utils';
 
 type HistoryItemProps = {
   device: string;
   state: string;
-  dateAndTime: string;
+  timeStamp: Date;
   user: string;
 };
 
 const HistoryItem: FC<HistoryItemProps> = ({
   device,
   state,
-  dateAndTime,
+  timeStamp,
   user,
 }) => {
   return (
@@ -40,7 +41,7 @@ const HistoryItem: FC<HistoryItemProps> = ({
             name="time-outline"
             color={globalStyles.colors.darkTeal}
           />
-          <Text style={styles.text}>at {dateAndTime}</Text>
+          <Text style={styles.text}>at {getFormattedTime(timeStamp)}</Text>
         </View>
       </View>
       <View style={styles.user}>

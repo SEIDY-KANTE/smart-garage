@@ -1,5 +1,5 @@
 export type HistoryType = {
-    id: string | undefined;
+    id: string;
     device: string;
     isOpen: boolean;
     user: string;

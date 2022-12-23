@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import HistoryItem from './HistoryItem';
 import History from '../../../models/History';
+import { useDevices } from '../../../context/Device';
 
 const histories = [
   {
@@ -42,17 +43,17 @@ const histories = [
 ];
 
 const HistoryTab = () => {
-  const [allHistory, setAllHistory] = useState<History[]>([]);
+  const { usageHistory } = useDevices();
 
   return (
     <FlatList
-      data={histories}
-      keyExtractor={(item) => item.id.toString()}
+      data={usageHistory}
+      keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <HistoryItem
           device={item.device}
-          state={item.state}
-          dateAndTime={item.time}
+          state={item.isOpen ? 'Opened' : 'Closed'}
+          timeStamp={item.dateAndTime}
           user={item.user}
         />
       )}
