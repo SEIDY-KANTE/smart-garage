@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, Modal, FlatList } from 'react-native';
 import React, { FC, useEffect, useState } from 'react';
-import globalStyles from '../../common';
-import Button from '../UI/Button';
-import User from '../../models/User/User';
+import globalStyles from '../../../common';
+import Button from '../../UI/Button';
+import User from '../../../models/User/User';
 import {
   getAllUsers,
   updateUserCredentials,
-} from '../../context/Actions/dbActions';
+} from '../../../context/Actions/dbActions';
 import UserListItem from './UserListItem';
 
 type RolesModalProps = {

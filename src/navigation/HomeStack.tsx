@@ -2,12 +2,18 @@ import React from 'react';
 import { useAuth } from '../context/auth-context';
 import UnAuthorizedStack from '../screens/Auth/UnAuthorizedStack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, SettingsTab, ProfileTab, HistoryTab } from '../components/Tabs';
+import {
+  Home,
+  SettingsTab,
+  ProfileTab,
+  HistoryTab,
+  NotificationsTab,
+} from '../components/Tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import globalStyles from '../common';
-import IconButton from '../components/UI/IconButton';
+import NotificationIcon from '../components/Tabs/Notifications/NotificationIcon';
 import { RootStackParamList } from './AuthStack';
 import DevicesContextProvider from '../context/Device';
 
@@ -16,10 +22,11 @@ export type BottomStackParamList = {
   Settings: undefined;
   History: undefined;
   Profile: undefined;
+  Notifications: undefined;
 };
 
 const BottomTab = createBottomTabNavigator<BottomStackParamList>();
-type HomeStackProps = BottomTabNavigationProp<BottomStackParamList>;
+export type HomeStackProps = BottomTabNavigationProp<BottomStackParamList>;
 
 const HomeStack = () => {
   const { currentUser, logout } = useAuth();
@@ -44,7 +51,7 @@ const HomeStack = () => {
           headerTintColor: globalStyles.colors.white,
           tabBarStyle: { backgroundColor: globalStyles.colors.subtleTeal },
           tabBarActiveTintColor: globalStyles.colors.teal,
-          headerRight: () => <IconButton onPress={navigateToProfile} />,
+          headerRight: () => <NotificationIcon />,
         }}
       >
         <BottomTab.Screen
@@ -96,6 +103,19 @@ const HomeStack = () => {
             },
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="person" color={color} size={size} />
+            ),
+          }}
+        />
+        <BottomTab.Screen
+          name="Notifications"
+          component={NotificationsTab}
+          options={{
+            headerTitleStyle: {
+              fontFamily: globalStyles.fontFamily.secondary,
+              fontSize: 20,
+            },
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="notifications" color={color} size={size} />
             ),
           }}
         />

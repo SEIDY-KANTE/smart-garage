@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { FC } from 'react';
-import User from '../../models/User/User';
-import globalStyles from '../../common';
-import Button from '../UI/Button';
-import UserAvatar from './Profile/UserAvatar';
+import User from '../../../models/User/User';
+import globalStyles from '../../../common';
+import Button from '../../UI/Button';
+import UserAvatar from '../Profile/UserAvatar';
 
 type UserListItemProps = {
   user: User;

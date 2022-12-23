@@ -13,7 +13,9 @@ const ProfileTab = () => {
 
   return (
     <View style={styles.container}>
-      <UserAvatar />
+      <View style={styles.avatarContainer}>
+        <UserAvatar />
+      </View>
       <View style={styles.flexContainer}>
         <Text style={styles.text}>Username:</Text>
         <Text style={styles.text}>{currentUser?.username}</Text>
@@ -40,7 +42,11 @@ const ProfileTab = () => {
           </Button>
         </View>
       </View>
-      <Button onPress={logout} color={globalStyles.colors.accent}>
+      <Button
+        onPress={logout}
+        color={globalStyles.colors.accent}
+        style={styles.button}
+      >
         Logout
       </Button>
     </View>
@@ -65,5 +71,11 @@ const styles = StyleSheet.create({
   flexContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  avatarContainer: {
+    marginBottom: 40,
+  },
+  button: {
+    marginTop: 20,
   },
 });

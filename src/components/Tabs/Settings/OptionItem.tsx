@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { FC, useState } from 'react';
-import globalStyles from '../../common';
+import globalStyles from '../../../common';
 import { Ionicons } from '@expo/vector-icons';
 import RolesModal from './RolesModal';
 
