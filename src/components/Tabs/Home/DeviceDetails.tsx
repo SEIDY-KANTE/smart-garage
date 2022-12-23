@@ -53,7 +53,7 @@ const DeviceDetails: FC<DeviceDetailsProps> = ({
 
   return (
     <Modal visible={visible} animationType="slide">
-      <View style={styles.textContainer}>
+      <View style={styles.container}>
         <Animated.View style={{ opacity: fadeAnim, alignItems: 'center' }}>
           <Image
             style={styles.image}
@@ -82,7 +82,7 @@ const DeviceDetails: FC<DeviceDetailsProps> = ({
 export default DeviceDetails;
 
 const styles = StyleSheet.create({
-  textContainer: {
+  container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

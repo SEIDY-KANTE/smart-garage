@@ -10,8 +10,26 @@ export const getDevices = async () => {
   return db.collection('devices').get();
 };
 
+export const getAllUsers = async () => {
+  return db.collection('users').where('isAdmin', '==', false).get();
+};
+
+export const updateUserCredentials = async (user: any) => {
+  db.collection('users')
+    .where('userID', '==', user.uid)
+    .get()
+    .then((data) => {
+      const userDocID = data.docs[0].id;
+      db.collection('users').doc(userDocID).update(user);
+    });
+};
+
 export const getHistory = async () => {
-  return db.collection('history').orderBy('dateAndTime', 'desc').limit(10).get();
+  return db
+    .collection('history')
+    .orderBy('dateAndTime', 'desc')
+    .limit(10)
+    .get();
 };
 
 export const getDeviceByName = async (name: string) => {
