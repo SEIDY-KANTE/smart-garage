@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import User from '../../models/User/User';
 import globalStyles from '../../common';
 import Button from '../UI/Button';
+import UserAvatar from './Profile/UserAvatar';
 
 type UserListItemProps = {
   user: User;
@@ -12,7 +13,10 @@ type UserListItemProps = {
 const UserListItem: FC<UserListItemProps> = ({ user, onToggle }) => {
   return (
     <View style={styles.itemContainer}>
-      <Text style={styles.username}>{user.username}</Text>
+      <View style={styles.userContainer}>
+        <UserAvatar size={50} color={globalStyles.colors.subtleTeal3} />
+        <Text style={styles.username}>{user.username}</Text>
+      </View>
       <Button
         onPress={onToggle.bind(this, user.uid)}
         color={
@@ -45,5 +49,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: globalStyles.fontFamily.primary,
     color: globalStyles.colors.darkTeal,
+    marginLeft: 13,
+  },
+  userContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

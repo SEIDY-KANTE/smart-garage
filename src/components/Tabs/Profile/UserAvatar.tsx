@@ -27,6 +27,5 @@ export default UserAvatar;
 const styles = StyleSheet.create({
   avatar: {
     alignItems: 'center',
-    marginBottom: 15,
   },
 });
