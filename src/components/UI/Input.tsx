@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     color: globalStyles.colors.orangered,
   },
   error: {
+    marginTop: 5,
     color: globalStyles.colors.orangered,
     fontSize: 11,
     fontFamily: globalStyles.fontFamily.primary,
