@@ -61,7 +61,7 @@ const AuthForm: FC<AuthFormProps> = ({ isLogin, onSubmit, formValidity }) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Input
         label="Email Address"
         value={enteredEmail}
@@ -113,8 +113,12 @@ const AuthForm: FC<AuthFormProps> = ({ isLogin, onSubmit, formValidity }) => {
 export default AuthForm;
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 5,
+  },
   error: {
     color: globalStyles.colors.orangered,
+    textAlign: 'center',
   },
   buttonContainer: {
     marginTop: 15,

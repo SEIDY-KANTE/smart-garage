@@ -40,7 +40,6 @@ const Input: React.FC<InputProps> = (props) => {
         secureTextEntry={props.secure}
         onChangeText={props.onUpdateValue}
         value={props.value}
-        placeholder={props.label}
       />
       {props.isInvalid && (
         <Text style={styles.error}>{props.errorMessage}</Text>

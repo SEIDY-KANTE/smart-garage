@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/auth-context';
 import AuthContent from '../../components/Auth/AuthContent';
+import AppLoading from 'expo-app-loading';
 
 const LoginScreen = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -19,7 +20,7 @@ const LoginScreen = () => {
     }
   };
 
-  if (isAuthenticating) return <Text>Authenticating...</Text>;
+  if (isAuthenticating) return <AppLoading />;
 
   return <AuthContent isLogin={true} onLogin={loginHandler} />;
 };

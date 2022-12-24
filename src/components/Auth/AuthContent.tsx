@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import AuthForm, { FormValues } from './AuthForm';
 import { validateEmail } from '../../utils';
 import globalStyles from '../../common';
-import FlatButton from '../UI/Button';
+import Button from '../UI/Button';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../navigation/AuthStack';
 
@@ -73,16 +73,19 @@ const AuthContent: FC<AuthContentProps> = ({ isLogin, onLogin, onSignup }) => {
     }
   };
   return (
-    <View style={styles.content}>
+    <View style={[styles.content, { marginTop: isLogin ? 80 : 25 }]}>
       <AuthForm
         isLogin={isLogin}
         onSubmit={submitHandler}
         formValidity={formValidity}
       />
       <View style={styles.buttonContainer}>
-        <FlatButton color="salmon" textColor="white" onPress={switchAuthMode}>
+        <Text style={styles.middleText}>
+          {isLogin ? `Don't have an account?` : `Already have an account?`}
+        </Text>
+        <Button color="salmon" textColor="white" onPress={switchAuthMode}>
           {isLogin ? 'Signup' : 'Login'}
-        </FlatButton>
+        </Button>
       </View>
     </View>
   );
@@ -92,9 +95,8 @@ export default AuthContent;
 
 const styles = StyleSheet.create({
   content: {
-    marginTop: 64,
     backgroundColor: globalStyles.colors.gray3,
-    marginHorizontal: 32,
+    marginHorizontal: 24,
     padding: 16,
     borderRadius: 8,
     elevation: 4,
@@ -105,5 +107,12 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 10,
+  },
+  middleText: {
+    textAlign: 'center',
+    color: globalStyles.colors.teal,
+    marginBottom: 8,
+    fontFamily: globalStyles.fontFamily.primary,
+    fontSize: 14,
   },
 });

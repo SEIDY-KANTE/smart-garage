@@ -48,8 +48,13 @@ const DeviceCard: FC<DeviceProps> = ({ device }) => {
       <Card title={device.name}>
         <View style={styles.detailsContainer}>
           <Ionicons name="golf-outline" size={24} color="salmon" />
-          <Text style={[styles.detailsText, { marginRight: 155 }]}>
-            State: {device?.isOpen ? 'Open' : 'Closed'}
+          <Text
+            style={[
+              styles.detailsText,
+              { marginRight: 150, fontSize: 18, fontWeight: 'bold' },
+            ]}
+          >
+            {device?.isOpen ? 'Open' : 'Closed'}
           </Text>
         </View>
         <View
@@ -65,8 +70,7 @@ const DeviceCard: FC<DeviceProps> = ({ device }) => {
             color="salmon"
           />
           <Text style={styles.detailsText}>
-            Last Action:
-            {device.isOpen ? 'Opened at ' : 'Closed at '}
+            Last Action :{device.isOpen ? ' Opened at ' : ' Closed at '}
             {getFormattedTime(device.lastActionTime)}
           </Text>
         </View>
@@ -136,6 +140,6 @@ const styles = StyleSheet.create({
     // marginLeft: -10,
     fontFamily: globalStyles.fontFamily.primary,
     fontSize: 14,
-    color: globalStyles.colors.black,
+    color: globalStyles.colors.gray5,
   },
 });
