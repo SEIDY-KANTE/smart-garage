@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { FC, useState } from 'react';
 import globalStyles from '../../../common';
 import { Ionicons } from '@expo/vector-icons';
-import RolesModal from './RolesModal';
+import SettingsModal from './SettingsModal';
 
 type OptionItemProps = {
   option: string;
@@ -28,7 +28,9 @@ const OptionItem: FC<OptionItemProps> = ({
         <Ionicons name={icon} size={20} color={globalStyles.colors.darkTeal} />
         <Text style={styles.text}>{option}</Text>
       </View>
-      {onCancel && <RolesModal visible={modalIsVisible} onCancel={onCancel} />}
+      {onCancel && (
+        <SettingsModal visible={modalIsVisible} onCancel={onCancel} />
+      )}
     </Pressable>
   );
 };

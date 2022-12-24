@@ -11,10 +11,8 @@ import {
 } from '../components/Tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
 import globalStyles from '../common';
 import NotificationIcon from '../components/Tabs/Notifications/NotificationIcon';
-import { RootStackParamList } from './AuthStack';
 import DevicesContextProvider from '../context/Device';
 
 export type BottomStackParamList = {
@@ -29,19 +27,9 @@ const BottomTab = createBottomTabNavigator<BottomStackParamList>();
 export type HomeStackProps = BottomTabNavigationProp<BottomStackParamList>;
 
 const HomeStack = () => {
-  const { currentUser, logout } = useAuth();
+  const { currentUser } = useAuth();
 
-  const navigation = useNavigation<HomeStackProps>();
-  const navigationAuth = useNavigation<RootStackParamList>();
-
-  // if (!currentUser?.isAuthorized) return <UnAuthorizedStack />;
-  if (false) {
-    // navigation.navigate('UnAthorized');
-  }
-
-  const navigateToProfile = () => {
-    navigation.navigate('Profile');
-  };
+  if (!currentUser?.isAuthorized) return <UnAuthorizedStack />;
 
   return (
     <DevicesContextProvider>
@@ -80,19 +68,21 @@ const HomeStack = () => {
             ),
           }}
         />
-        <BottomTab.Screen
-          name="Settings"
-          component={SettingsTab}
-          options={{
-            headerTitleStyle: {
-              fontFamily: globalStyles.fontFamily.secondary,
-              fontSize: 20,
-            },
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="settings" color={color} size={size} />
-            ),
-          }}
-        />
+        {currentUser?.isAdmin && (
+          <BottomTab.Screen
+            name="Settings"
+            component={SettingsTab}
+            options={{
+              headerTitleStyle: {
+                fontFamily: globalStyles.fontFamily.secondary,
+                fontSize: 20,
+              },
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="settings" color={color} size={size} />
+              ),
+            }}
+          />
+        )}
         <BottomTab.Screen
           name="Profile"
           component={ProfileTab}

@@ -49,6 +49,7 @@ const AuthContextProvider: FC<{ children: ReactNode }> = (props) => {
   const login = async (email: string, password: string) => {
     try {
       await loginUser(email, password);
+      setIsSigningup(false);
       setIsLoggedIn(true);
     } catch (error) {
       setError(ErrorMessages.invalidCredentials);

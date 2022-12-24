@@ -49,7 +49,7 @@ const AuthContent: FC<AuthContentProps> = ({ isLogin, onLogin, onSignup }) => {
 
     const emailIsValid = validateEmail(email);
     const passwordIsValid = password.length >= 6;
-    const usernameIsValid = username.length >= 4;
+    const usernameIsValid = username.length >= 3;
     const passwordsAreMatching = password === confirmPassword;
 
     if (
@@ -80,9 +80,6 @@ const AuthContent: FC<AuthContentProps> = ({ isLogin, onLogin, onSignup }) => {
         formValidity={formValidity}
       />
       <View style={styles.buttonContainer}>
-        {/* <Button color="purple" textColor="white" onPress={switchAuthMode}>
-          {isLogin ? 'Sign up instead' : 'Login instead'}
-        </Button> */}
         <FlatButton color="salmon" textColor="white" onPress={switchAuthMode}>
           {isLogin ? 'Signup' : 'Login'}
         </FlatButton>

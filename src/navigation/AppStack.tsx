@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import React from 'react';
 import { useAuth } from '../context/auth-context';
-import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import globalStyles from '../common';
 import HomeStack from './HomeStack';
@@ -13,16 +12,9 @@ const AppStack = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      {/* <LinearGradient
-        colors={[globalStyles.colors.cyan, globalStyles.colors.green]}
-        start={[0, 0]}
-        end={[1, 1]}
-        style={styles.rootScreen}
-      > */}
       <SafeAreaView style={styles.rootScreen}>
         {isLoggedIn ? <HomeStack /> : <AuthStack />}
       </SafeAreaView>
-      {/* </LinearGradient> */}
     </View>
   );
 };

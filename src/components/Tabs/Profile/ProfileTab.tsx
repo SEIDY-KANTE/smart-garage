@@ -14,7 +14,7 @@ const ProfileTab = () => {
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
-        <UserAvatar />
+        <UserAvatar username={currentUser?.username} />
       </View>
       <View style={styles.flexContainer}>
         <Text style={styles.text}>Username:</Text>

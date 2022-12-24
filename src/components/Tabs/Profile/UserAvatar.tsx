@@ -2,17 +2,17 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { FC } from 'react';
 import { Avatar } from 'react-native-elements';
 import globalStyles from '../../../common';
-import { useAuth } from '../../../context/auth-context';
 
-const UserAvatar: FC<{ size?: number; color?: string }> = ({ size, color }) => {
-  const currentUser = useAuth();
+const UserAvatar: FC<{ size?: number; color?: string; username?: string }> = ({
+  size,
+  color,
+  username,
+}) => {
   return (
     <View style={styles.avatar}>
       <Avatar
         size={size || 120}
-        // title={currentUser?.username.charAt(0).toUpperCase()}
-        // title={currentUser?.username}
-        title={'Bedru'.slice(0, 2).toUpperCase()}
+        title={username!.slice(0, 2)}
         rounded
         activeOpacity={0.7}
         icon={{ name: 'user', type: 'font-awesome' }}

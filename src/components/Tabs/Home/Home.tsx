@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
 import DeviceCard from './DeviceCard';
 import { useDevices } from '../../../context/Device';
 
@@ -12,8 +11,6 @@ export type HomeStackParamList = {
   DevicesOverview: undefined;
   DeviceDetails: DeviceDetailsProps;
 };
-
-const Stack = createStackNavigator<HomeStackParamList>();
 
 const Home = () => {
   const { allDevices } = useDevices();

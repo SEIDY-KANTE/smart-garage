@@ -22,8 +22,7 @@ const App = () => {
       <ThemeContextProvider>
         <NavigationContainer>
           <StatusBar style="light" />
-          {/* <AppStack /> */}
-          <HomeStack />
+          <AppStack />
         </NavigationContainer>
       </ThemeContextProvider>
     </AuthContextProvider>

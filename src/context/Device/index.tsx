@@ -153,7 +153,6 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         snapshot.forEach((doc: any) => {
           const docNot = doc.data();
           docNot.id = doc.id;
-          console.log(docNot.time);
           docNot.time = new Date(docNot.time);
           nots.push(new Notification(docNot));
         });
@@ -198,7 +197,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     addHistory({
       device: activeDevice.name,
       isOpen: activeDevice.isOpen,
-      user: 'epix',
+      user: currentUser?.username,
       dateAndTime: new Date(),
     });
 
@@ -208,7 +207,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
           id: Date.now().toString(),
           device: activeDevice.name,
           isOpen: activeDevice.isOpen,
-          user: 'epix',
+          user: currentUser!.username,
           dateAndTime: new Date(),
         }),
         ...prevState,
@@ -227,7 +226,6 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   ]);
 
   const updateDevice = async (device: Device, action: Actions) => {
-    // update device on server
     if (!device) return;
 
     switch (action) {

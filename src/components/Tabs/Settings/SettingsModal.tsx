@@ -14,7 +14,7 @@ type RolesModalProps = {
   onCancel: () => void;
 };
 
-const RolesModal: FC<RolesModalProps> = ({ visible, onCancel }) => {
+const SettingsModal: FC<RolesModalProps> = ({ visible, onCancel }) => {
   const [allUsers, setAllUsers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const RolesModal: FC<RolesModalProps> = ({ visible, onCancel }) => {
   return (
     <Modal visible={visible} animationType="slide">
       <View style={styles.container}>
-        <Text style={styles.title}>Roles Manager</Text>
+        <Text style={styles.title}>Manage Access</Text>
         <View style={styles.header}>
           <Text style={styles.headerText}>Users</Text>
           <Text style={styles.headerText}>Access</Text>
@@ -87,7 +87,7 @@ const RolesModal: FC<RolesModalProps> = ({ visible, onCancel }) => {
   );
 };
 
-export default RolesModal;
+export default SettingsModal;
 
 const styles = StyleSheet.create({
   container: {

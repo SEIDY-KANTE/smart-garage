@@ -45,7 +45,11 @@ const HistoryItem: FC<HistoryItemProps> = ({
         </View>
       </View>
       <View style={styles.user}>
-        <UserAvatar size={55} color={globalStyles.colors.subtleTeal3} />
+        <UserAvatar
+          size={55}
+          color={globalStyles.colors.subtleTeal3}
+          username={user}
+        />
         <Text style={styles.username}>by {user}</Text>
       </View>
     </View>

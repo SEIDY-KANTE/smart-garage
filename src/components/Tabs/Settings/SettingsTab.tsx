@@ -8,7 +8,7 @@ const SettingsTab = () => {
   return (
     <View style={styles.container}>
       <OptionItem
-        option="Manage roles"
+        option="Manage access"
         onPress={() => setModalIsVisible(true)}
         onCancel={() => setModalIsVisible(false)}
         icon="people-outline"

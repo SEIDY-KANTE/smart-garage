@@ -14,7 +14,11 @@ const UserListItem: FC<UserListItemProps> = ({ user, onToggle }) => {
   return (
     <View style={styles.itemContainer}>
       <View style={styles.userContainer}>
-        <UserAvatar size={50} color={globalStyles.colors.subtleTeal3} />
+        <UserAvatar
+          size={50}
+          color={globalStyles.colors.subtleTeal3}
+          username={user.username}
+        />
         <Text style={styles.username}>{user.username}</Text>
       </View>
       <Button
