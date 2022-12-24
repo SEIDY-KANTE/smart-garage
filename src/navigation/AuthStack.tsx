@@ -20,7 +20,7 @@ const AuthStack = () => {
       screenOptions={{
         headerStyle: { backgroundColor: globalStyles.colors.teal },
         headerTintColor: globalStyles.colors.white,
-        contentStyle: { backgroundColor: globalStyles.colors.white },
+        contentStyle: { backgroundColor: globalStyles.colors.subtleTeal2 },
       }}
     >
       <Stack.Screen name="Login" component={LoginScreen} />

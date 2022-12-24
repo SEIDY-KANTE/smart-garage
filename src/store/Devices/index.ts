@@ -3,7 +3,7 @@ import {
   DELIVERY_BOX_WRITE_API_URL,
   GARAGE_DOOR_WRITE_API_URL,
 } from '../../config';
-import { Command } from '../../config/Command';
+import { State } from '../../config/State';
 import Device from '../../models/Device/Device';
 import DeviceName from '../../models/Device/DeviceName';
 
@@ -28,7 +28,7 @@ export const open = async (deviceName: string) => {
       ? GARAGE_DOOR_WRITE_API_URL
       : DELIVERY_BOX_WRITE_API_URL;
 
-  axios.post(`${BASE_URL}${Command.OPEN}`);
+  axios.post(`${BASE_URL}${State.OPEN}`);
 };
 
 export const close = async (deviceName: string) => {
@@ -37,5 +37,5 @@ export const close = async (deviceName: string) => {
       ? GARAGE_DOOR_WRITE_API_URL
       : DELIVERY_BOX_WRITE_API_URL;
 
-  axios.post(`${BASE_URL}${Command.CLOSED}`);
+  axios.post(`${BASE_URL}${State.CLOSED}`);
 };
