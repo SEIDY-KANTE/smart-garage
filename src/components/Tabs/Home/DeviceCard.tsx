@@ -13,7 +13,11 @@ import { getFormattedTime } from '../../../utils';
 type DeviceProps = {
   device: Device;
 };
-const actionTimeOut = 15;
+
+//We need to disable the button for a certain amount of time after an action is performed
+//This is because thingspeak has a limit of 1 request per 15 seconds
+const ACTION_INTERVAL = 15;
+
 // type DeviceStackProps = StackNavigationProp<HomeStackParamList>;
 const DeviceCard: FC<DeviceProps> = ({ device }) => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -26,7 +30,7 @@ const DeviceCard: FC<DeviceProps> = ({ device }) => {
     setIsDisabled(true);
     setTimeout(() => {
       setIsDisabled(false);
-    }, actionTimeOut * 1000);
+    }, ACTION_INTERVAL * 1000);
     setModalIsVisible(false);
   };
 
@@ -36,7 +40,7 @@ const DeviceCard: FC<DeviceProps> = ({ device }) => {
     setIsDisabled(true);
     setTimeout(() => {
       setIsDisabled(false);
-    }, actionTimeOut * 1000);
+    }, ACTION_INTERVAL * 1000);
   };
 
   return (

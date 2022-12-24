@@ -41,3 +41,8 @@ export const timeAgo = (time: string) => {
   const then = moment(time);
   return then.diff(now);
 };
+
+export const findDiffInMins = (from: Date, to: Date) => {
+  const diff = Math.abs(to.getTime() - from.getTime());
+  return Math.ceil(diff / (1000 * 60));
+}

@@ -20,7 +20,9 @@ export const updateUserCredentials = async (user: any) => {
     .get()
     .then((data) => {
       const userDocID = data.docs[0].id;
-      db.collection('users').doc(userDocID).update(user);
+      db.collection('users')
+        .doc(userDocID)
+        .update({ ...user });
     });
 };
 
@@ -33,12 +35,8 @@ export const getHistory = async () => {
 };
 
 export const getNotifications = async () => {
-  return db
-    .collection('notifications')
-    .orderBy('time', 'desc')
-    .limit(10)
-    .get();
-}
+  return db.collection('notifications').orderBy('time', 'desc').limit(10).get();
+};
 
 export const getDeviceByName = async (name: string) => {
   return db.collection('devices').where(name, '==', 'name').get();

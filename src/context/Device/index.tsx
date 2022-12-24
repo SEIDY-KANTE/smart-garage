@@ -23,11 +23,10 @@ import {
 import { useAuth } from '../auth-context';
 import History from '../../models/History';
 import Notification from '../../models/Notification/Notification';
-import moment from 'moment';
 import * as Notifications from 'expo-notifications';
 import { IDevicesContext, IDevices } from './types';
-import { notificationHandler } from './helper';
-import { timeAgo } from '../../utils';
+import { notificationHandler } from './notificationHandler';
+import { findDiffInMins } from '../../utils';
 
 const DevicesContext = createContext<IDevicesContext>({
   allDevices: { garageDoor: GarageDoor, deliveryBox: DeliveryBox },
@@ -66,20 +65,70 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setActiveDevice(device);
   };
 
-  useEffect(() => {
-    getHistory()
-      .then((snapshot) => {
-        const history: any = [];
-        snapshot.forEach((doc: any) => {
-          const data = doc.data();
-          data.id = doc.id;
-          data.dateAndTime = new Date(data.dateAndTime);
-          history.push(new History(data));
+  const checkIfDeviceIsLeftOpen = async (device: Device) => {
+    const notification = new Notification({
+      id: Date.now().toString(),
+      title: 'Alert',
+      description: `${device.name} was open for more than ${device.alertAfterMins} minutes`,
+      time: new Date(),
+      isUnread: true,
+    });
+
+    setTimeout(async () => {
+      const deviceState = await fetchActiveDeviceState(device);
+      const now = new Date();
+      const then = new Date(deviceState!.lastActionTime);
+      const diffInMins = findDiffInMins(then, now);
+
+      const deviceIsStillOpen =
+        deviceState!.isOpen && diffInMins > device.alertAfterMins;
+
+      if (deviceIsStillOpen) {
+        setNotifications((prevState) => {
+          const newNotification = {
+            ...notification,
+            time: new Date(notification.time),
+          };
+          return [newNotification, ...prevState];
         });
-        setUsageHistory(history);
-      })
-      .catch((err) => console.log(err));
-  }, [getHistory]);
+        addNotification(notification);
+        notificationHandler(notification);
+      }
+    }, device.alertAfterMins * 60 * 1000);
+  };
+
+  const engageAutoLockMode = (device: Device) => {
+    const notification = new Notification({
+      id: Date.now().toString(),
+      title: 'Auto Lock Mode Engaged',
+      description: `Auto Lock Mode Engaged for ${device.name}`,
+      time: new Date(),
+      isUnread: true,
+    });
+
+    setTimeout(async () => {
+      const deviceState = await fetchActiveDeviceState(device);
+      const now = new Date();
+      const then = new Date(deviceState!.lastActionTime);
+      const diffInMins = findDiffInMins(then, now);
+
+      const deviceIsStillOpen =
+        deviceState!.isOpen && diffInMins > device.lockAfterMins;
+
+      if (!deviceIsStillOpen) return;
+      setActiveDevice(device);
+      updateDevice(device, Actions.CLOSE);
+      setNotifications((prevState) => {
+        const newNotification = {
+          ...notification,
+          time: new Date(notification.time),
+        };
+        return [newNotification, ...prevState];
+      });
+      addNotification(notification);
+      notificationHandler(notification);
+    }, device.lockAfterMins * 60 * 1000);
+  };
 
   useEffect(() => {
     getDevices()
@@ -111,7 +160,20 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setNotifications(nots);
       })
       .catch((err) => console.log(err));
-  }, [getDevices, getNotifications]);
+
+    getHistory()
+      .then((snapshot) => {
+        const history: any = [];
+        snapshot.forEach((doc: any) => {
+          const data = doc.data();
+          data.id = doc.id;
+          data.dateAndTime = new Date(data.dateAndTime);
+          history.push(new History(data));
+        });
+        setUsageHistory(history);
+      })
+      .catch((err) => console.log(err));
+  }, [getDevices, getNotifications, getHistory]);
 
   useEffect(() => {
     updateDeviceOnDb(activeDevice);
@@ -127,7 +189,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
 
     updateAllDevices();
-  }, [activeDevice, updateDeviceOnDb, addHistory]);
+  }, [activeDevice, updateDeviceOnDb]);
 
   useEffect(() => {
     if (!deviceIsUpdated) {
@@ -143,7 +205,7 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setUsageHistory((prevState) => {
       return [
         new History({
-          id: (prevState.length + 1).toString(),
+          id: Date.now().toString(),
           device: activeDevice.name,
           isOpen: activeDevice.isOpen,
           user: 'epix',
@@ -153,7 +215,16 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       ];
     });
     setDeviceIsUpdated(false);
-  }, [activeDevice, addHistory, deviceIsUpdated]);
+
+    if (activeDevice.alertIsOn) checkIfDeviceIsLeftOpen(activeDevice);
+    if (activeDevice.autoLockIsOn) engageAutoLockMode(activeDevice);
+  }, [
+    activeDevice,
+    addHistory,
+    deviceIsUpdated,
+    checkIfDeviceIsLeftOpen,
+    engageAutoLockMode,
+  ]);
 
   const updateDevice = async (device: Device, action: Actions) => {
     // update device on server
@@ -203,46 +274,6 @@ const DevicesContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         break;
       default:
         break;
-    }
-
-    checkIfDeviceIsLeftOpen(device, action);
-  };
-
-  const checkIfDeviceIsLeftOpen = async (device: Device, action: Actions) => {
-    if (device.alertIsOn && action === Actions.OPEN) {
-      const notification = new Notification({
-        id: (notifications.length + 1).toString(),
-        title: 'Alert',
-        description: `${
-          device.name
-        } was ${action.toLocaleLowerCase()} for more than ${
-          device.alertAfterMins
-        } minutes`,
-        time: new Date(),
-        isUnread: true,
-      });
-      console.log(device.alertAfterMins);
-
-      setTimeout(async () => {
-        console.log('checking if device is still open');
-        const activeDeviceState = await fetchActiveDeviceState(activeDevice);
-        const now = moment(new Date());
-        const then = moment(activeDeviceState!.lastActionTime);
-        const diffInMins = moment.duration(now.diff(then)).asMinutes();
-
-        const deviceIsStillOpen = diffInMins > device.alertAfterMins;
-        if (deviceIsStillOpen) {
-          setNotifications((prevState) => {
-            const newNotification = {
-              ...notification,
-              time: new Date(notification.time),
-            };
-            return [newNotification, ...prevState];
-          });
-          addNotification(notification);
-          notificationHandler(notification);
-        }
-      }, device.alertAfterMins * 60 * 1000);
     }
   };
 

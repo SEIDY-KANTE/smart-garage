@@ -17,7 +17,7 @@ const NotificationIcon = () => {
         MainElement={
           <Ionicons name="notifications-outline" size={36} color="white" />
         }
-        BadgeElement={<Text>1</Text>}
+        BadgeElement={<Text>10</Text>}
         IconBadgeStyle={{
           width: 20,
           height: 20,
