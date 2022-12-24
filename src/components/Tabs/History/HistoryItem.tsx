@@ -25,7 +25,7 @@ const HistoryItem: FC<HistoryItemProps> = ({
           <Ionicons
             name={device === 'Garage Door' ? 'car-sport' : 'cube-outline'}
             size={24}
-            color={globalStyles.colors.darkTeal}
+            color={globalStyles.colors.accent}
           />
           <Text style={styles.device}>{device}</Text>
         </View>
@@ -33,7 +33,7 @@ const HistoryItem: FC<HistoryItemProps> = ({
           <Ionicons
             size={20}
             name={state === 'Opened' ? 'lock-open' : 'lock-closed'}
-            color={globalStyles.colors.darkTeal}
+            color={globalStyles.colors.accent}
           />
           <Text style={styles.text}>{state}</Text>
           <Ionicons
@@ -56,7 +56,7 @@ export default HistoryItem;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: globalStyles.colors.subtleAccent2,
+    backgroundColor: globalStyles.colors.subtleTeal,
     padding: 10,
     marginVertical: 5,
     marginHorizontal: 10,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: globalStyles.fontFamily.primary,
-    color: globalStyles.colors.black,
+    color: globalStyles.colors.darkTeal,
     fontSize: 15,
     marginRight: 42,
   },

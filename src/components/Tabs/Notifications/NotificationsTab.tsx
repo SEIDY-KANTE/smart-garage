@@ -1,45 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import React from 'react';
 import NotificationItem from './NotificationItem';
+import Notification from '../../../models/Notification/Notification';
+import { useDevices } from '../../../context/Device';
 
-const NOTIFICATIONS = [
-  {
-    id: 1,
-    title: 'New message',
-    description: 'You have a new message from John Doe',
-    time: '2 hours ago',
-  },
-  {
-    id: 2,
-    title: 'New message',
-    description: 'You have a new message from John Doe',
-    time: '2 hours ago',
-  },
-  {
-    id: 3,
-    title: 'New message',
-    description: 'You have a new message from John Doe',
-    time: '2 hours ago',
-  },
-  {
-    id: 4,
-    title: 'New message',
-    description: 'You have a new message from John Doe',
-    time: '2 hours ago',
-  },
-  {
-    id: 5,
-    title: 'New message',
-    description: 'You have a new message from John Doe',
-    time: '2 hours ago',
-  },
-];
 const NotificationsTab = () => {
+  const { notifications } = useDevices();
+
   return (
     <View style={styles.container}>
-      <NotificationItem></NotificationItem>
-      <NotificationItem></NotificationItem>
-      <NotificationItem></NotificationItem>
+      <FlatList
+        data={notifications}
+        renderItem={({ item }) => <NotificationItem item={item} />}
+        keyExtractor={(item) => item.id.toString()}
+      />
     </View>
   );
 };

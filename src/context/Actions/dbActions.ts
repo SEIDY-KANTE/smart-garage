@@ -32,6 +32,14 @@ export const getHistory = async () => {
     .get();
 };
 
+export const getNotifications = async () => {
+  return db
+    .collection('notifications')
+    .orderBy('time', 'desc')
+    .limit(10)
+    .get();
+}
+
 export const getDeviceByName = async (name: string) => {
   return db.collection('devices').where(name, '==', 'name').get();
 };
@@ -51,10 +59,23 @@ export const addHistory = async (newHistory: any) => {
     .add({ ...newHistory, dateAndTime: newHistory.dateAndTime.toString() });
 };
 
-// export const updateDevice = async (name: string, value: any) => {
-//   const updatedDevice = await db
-//     .collection('devices')
-//     .where(name, '==', name)
-//     .update(value);
-//   return updatedDevice;
-// };
+export const addNotification = async (newNotification: any) => {
+  return await db.collection('notifications').add({
+    ...newNotification,
+    time: new Date().toString(),
+  });
+};
+
+export const fetchActiveDeviceState = async (device: Device) => {
+  return db
+    .collection('devices')
+    .doc(device.id)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        return doc.data();
+      } else {
+        return null;
+      }
+    });
+};
