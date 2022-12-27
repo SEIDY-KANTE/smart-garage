@@ -4,8 +4,3 @@ export enum Actions {
   TOGGLE = 'TOGGLE',
   UPDATE_SETTINGS = 'UPDATE',
 }
-
-export enum AutoLockMode {
-  ON = 'ON',
-  OFF = 'OFF',
-}

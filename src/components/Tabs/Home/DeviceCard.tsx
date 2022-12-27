@@ -18,11 +18,9 @@ type DeviceProps = {
 //This is because thingspeak has a limit of 1 request per 15 seconds
 const ACTION_INTERVAL = 15;
 
-// type DeviceStackProps = StackNavigationProp<HomeStackParamList>;
 const DeviceCard: FC<DeviceProps> = ({ device }) => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  // const navigation = useNavigation<DeviceStackProps>();
   const { updateDevice, activateDevice } = useDevices();
 
   const showModal = () => setModalIsVisible(true);
