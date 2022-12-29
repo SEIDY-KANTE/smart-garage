@@ -1,4 +1,4 @@
-import NotificationType from './NotificationType';
+import INotification from './INotification';
 
 class Notification {
   id: string;
@@ -6,7 +6,7 @@ class Notification {
   description: string;
   time: Date;
   isUnread: boolean = true;
-  constructor(notification: NotificationType) {
+  constructor(notification: INotification) {
     this.id = notification.id;
     this.title = notification.title;
     this.description = notification.description;

@@ -1,6 +1,6 @@
 import DeviceName from "./DeviceName";
 
-interface DeviceType {
+interface IDevice {
     id: string;
     name: DeviceName;
     isOpen: boolean;
@@ -11,4 +11,4 @@ interface DeviceType {
     lastActionTime: Date;
 } 
 
-export default DeviceType;
+export default IDevice;

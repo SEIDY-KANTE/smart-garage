@@ -1,8 +1,7 @@
-import DeviceType from './DeviceType';
+import IDevice from './IDevice';
 import DeviceName from './DeviceName';
-import { getDateAndTime, getFormattedTime } from '../../utils';
 
-class Device {
+class Device implements IDevice{
   id: string;
   name: DeviceName;
   isOpen: boolean;
@@ -11,7 +10,7 @@ class Device {
   alertIsOn: boolean;
   alertAfterMins: number;
   lastActionTime: Date;
-  constructor(deviceData: DeviceType) {
+  constructor(deviceData: IDevice) {
     this.id = deviceData.id;
     this.name = deviceData.name;
     this.isOpen = deviceData.isOpen;

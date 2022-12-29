@@ -1,4 +1,4 @@
-export type HistoryType = {
+export interface IHistory {
     id: string;
     device: string;
     isOpen: boolean;

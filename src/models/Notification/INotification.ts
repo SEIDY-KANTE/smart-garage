@@ -1,4 +1,4 @@
-type NotificationType = {
+export interface INotification {
   id: string;
   title: string;
   description: string;
@@ -6,4 +6,4 @@ type NotificationType = {
   isUnread: boolean;
 }
 
-export default NotificationType;
+export default INotification;

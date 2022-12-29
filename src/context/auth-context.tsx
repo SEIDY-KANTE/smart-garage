@@ -6,7 +6,7 @@ import React, {
   useState,
   useContext,
 } from 'react';
-import UserType from '../models/User/UserType';
+import UserType from '../models/User/IUser';
 import User from '../models/User/User';
 import { auth } from '../store/firebase';
 import {
