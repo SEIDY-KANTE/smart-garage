@@ -9,13 +9,14 @@
 ## 🛠️ Tehnologies Used
 
 - React Native with Typescript
-- ThingSpeak for IoT Cloud
+- ThingSpeak IoT Cloud Platform
 - Firebase 
   - Authentication
   - Firestore
 - Expo Go
 - Android Studio Emulator
 - Figma
+- Postman
 
 ## ⚙️ Hardware
 - NodeMCU ESP8266 X 2
