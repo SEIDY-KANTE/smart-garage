@@ -33,16 +33,18 @@
 - 👤 Admin can
   - Allow/Deny access to the app for users
   - Access all the functionalities of the app
-
-## 🧰 Circuit Diagram
-<br>
-<img src="./screenshots/circuit%20diagram.png"></img>
-
 <br>
 
 ## 📐 Architecture
 <br>
 <img src="./screenshots/architecture.png"></img>
+
+<br>
+
+## 🧰 Circuit Diagram
+<br>
+
+<img src="./screenshots/circuit%20diagram.png"></img>
 
 <br>
 
@@ -71,6 +73,7 @@
 </table>
 
 ## 🛠️ Installation and setup instructions
+<br>
 
 1. Clone down this repo.  <br><br>
    ```sh
