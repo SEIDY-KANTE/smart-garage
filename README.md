@@ -10,13 +10,19 @@
 ## 🛠️ Tehnologies Used
 
 - React Native with Typescript
+<<<<<<< HEAD
 - ThingSpeak for IoT Cloud
 - Firebase
+=======
+- ThingSpeak IoT Cloud Platform
+- Firebase 
+>>>>>>> db5d49e56a718d5c82014e35855e56622b549da2
   - Authentication
   - Firestore
 - Expo Go
 - Android Studio Emulator
 - Figma
+- Postman
 
 ## ⚙️ Hardware
 
