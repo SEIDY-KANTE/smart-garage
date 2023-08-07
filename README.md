@@ -1,6 +1,6 @@
 # Smart Garage
 
-<img src="./screenshots/smart-garage.jpg"></img>
+<img src="./screenshots/smart-garage.jpg" style="width: 100vw;"></img>
 
 ## 📝 About
 
@@ -10,13 +10,12 @@
 ## 🛠️ Tehnologies Used
 
 - React Native with Typescript
-<<<<<<< HEAD
+  <<<<<<< HEAD
 - ThingSpeak for IoT Cloud
-- Firebase
-=======
+- # Firebase
 - ThingSpeak IoT Cloud Platform
-- Firebase 
->>>>>>> db5d49e56a718d5c82014e35855e56622b549da2
+- Firebase
+  > > > > > > > db5d49e56a718d5c82014e35855e56622b549da2
   - Authentication
   - Firestore
 - Expo Go
