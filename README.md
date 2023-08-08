@@ -1,6 +1,6 @@
 # Smart Garage
 
-<img src="./screenshots/smart-garage.jpg"></img>
+<img src="./screenshots/smart-garage.jpg" style="width: 100%;"></img>
 
 ## 📝 About
 
