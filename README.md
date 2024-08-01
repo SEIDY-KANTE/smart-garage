@@ -7,7 +7,7 @@
 - This is a mobile application developed in React Native that makes use of IoT which allows users to remotely control their garage doors and also a delivery box when they are not home at the moment. With this app, users can open and close their garage doors, view the current status of the door (open or closed), and receive notifications when the door is opened or closed.
 - It enables useres to monitor the usage of the delivery box and also receive notifications when it is left open for a certain period of time set by the user.
 
-## 🛠️ Tehnologies Used
+## 🛠️ Technologies Used
 
 - React Native with Typescript
 - ThingSpeak IoT Cloud Platform
