@@ -96,3 +96,25 @@
    ```sh
    expo start
    ```
+
+## 🔧 Arduino Configuration
+
+The Arduino code responsible for handling the garage door and delivery box is located in the `/config-arduino` directory. It uses the ESP8266 module to communicate with the ThingSpeak IoT platform.
+
+### 🛡️ Hiding Sensitive Information
+
+To keep your Wi-Fi credentials and ThingSpeak API keys secure, the project uses a `secrets.h` file which is excluded from version control. 
+
+Create a new file at `/config-arduino/secrets.h` with the following structure:
+
+
+```cpp
+#define SECRET_SSID "your_wifi_name"
+#define SECRET_PASS "your_wifi_password"
+
+#define SECRET_API_KEY1 "your_thingspeak_api_key_for_door"
+#define SECRET_API_KEY2 "your_thingspeak_api_key_for_delivery_box"
+
+#define SECRET_CHANNEL_ID1 1990559 // Your channel ID for door
+#define SECRET_CHANNEL_ID2 1995872 // Your channel ID for delivery box
+```

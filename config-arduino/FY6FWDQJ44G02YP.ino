@@ -1,20 +1,21 @@
+#include "secrets.h"
 #include <Servo.h>
 #include "ThingSpeak.h"
 #include <ESP8266WiFi.h>
-const char ssid[] = "seidy";  // your network SSID (name)
-const char pass[] = "seidykante1234";   // your network password         
+const char ssid[] = SECRET_SSID;  // your network SSID (name)
+const char pass[] = SECRET_PASS;   // your network password         
 WiFiClient  client;
 
 //---------Channel Details---------//
 
-unsigned long counterChannelNumber = 1990559;            // Channel ID
-const char * myCounterReadAPIKey = "FSJZGBTEQQKDUNE2"; // Read API Key
+unsigned long counterChannelNumber =   SECRET_CHANNEL_ID1;         // Channel ID
+const char * myCounterReadAPIKey = SECRET_API_KEY1; // Read API Key
 const int Door = 1;  // The field you wish to read
 
 //---------Channe2 Details---------//
 
-unsigned long counterChannelNumber2 = 1995872;            // Channel ID
-const char * myCounterReadAPIKey2 = "YOV6V8EHEEPFHDQJ"; // Read API Key
+unsigned long counterChannelNumber2 = SECRET_CHANNEL_ID2;            // Channel ID
+const char * myCounterReadAPIKey2 = SECRET_API_KEY2; // Read API Key
 const int CargoBox = 1;  // The field you wish to read
 
 //-------------------------------//
